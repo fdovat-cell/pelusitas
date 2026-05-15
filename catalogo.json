@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Mameluco Soft Crema",
+    "desc": "Algodón orgánico, cierre a presión. Talle 0 a 18 meses. Suave al tacto, ideal para piel sensible.",
+    "img": "fotos/mameluco-crema.webp",
+    "bg": "#d4c9b8",
+    "showTitle": false
+  },
+  {
+    "title": "Set Recién Nacido",
+    "desc": "Mameluco, gorrito y babero a juego. Algodón peinado 100%. Regalo ideal para baby shower.",
+    "img": "fotos/set-recien-nacido.webp",
+    "bg": "#c9bfb0",
+    "showTitle": false
+  },
+  {
+    "title": "Remera Rayas Náuticas",
+    "desc": "Clásico marinero azul y blanco. Jersey liviano. Talle 1 a 4 años.",
+    "img": "fotos/remera-rayas.webp",
+    "bg": "#c2b9a8",
+    "showTitle": false
+  },
+  {
+    "title": "Calza con Volados",
+    "desc": "Elástico suave en cintura, volados laterales. Talle 1 a 4 años.",
+    "img": "fotos/calza-volados.webp",
+    "bg": "#d8cfc0",
+    "showTitle": false
+  },
+  {
+    "title": "Vincha Lazo Lino",
+    "desc": "Elástica, talle único. Lino natural, varios colores disponibles.",
+    "img": "fotos/vincha-lazo.webp",
+    "bg": "#c5bba9",
+    "showTitle": false
+  },
+  {
+    "title": "Babero Bordado",
+    "desc": "Doble capa algodón, bordado artesanal. Broche a presión. Lavable a máquina.",
+    "img": "fotos/babero-bordado.webp",
+    "bg": "#d0c6b4",
+    "showTitle": false
+  },
+  {
+    "title": "Vestido Lino Natural",
+    "desc": "Lino lavado, corte suelto. Talle 2 a 6 años. Ideal para verano.",
+    "img": "fotos/vestido-lino.webp",
+    "bg": "#bfb5a3",
+    "showTitle": false
+  },
+  {
+    "title": "Conjunto Verano Terracota",
+    "desc": "Short y remera a juego, tono terracota. Talle 1 a 5 años.",
+    "img": "fotos/conjunto-terracota.webp",
+    "bg": "#cfc5b2",
+    "showTitle": false
+  },
+  {
+    "title": "Pijama Nubes",
+    "desc": "Algodón interlock, estampado de nubes. Cierre a presión. Talle 0 a 24 meses.",
+    "img": "fotos/pijama-nubes.webp",
+    "bg": "#ddd3c2",
+    "showTitle": false
+  },
+  {
+    "title": "Saquito de Punto",
+    "desc": "Tejido liviano, botones de madera. Talle 1 a 4 años. Ideal transición de estaciones.",
+    "img": "fotos/saquito-punto.webp",
+    "bg": "#b8af9e",
+    "showTitle": false
+  }
+]
