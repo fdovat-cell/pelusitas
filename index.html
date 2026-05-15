@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Pelusitas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET ─────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;background:#f5f1eb;}
+
+@font-face {
+  font-family: 'KristenITC';
+  src: local('Kristen ITC'), local('KristenITC');
+  font-display: swap;
+}
+
+:root{
+  --cream: #f5f1eb;
+  --dark:  #2c2117;
+  --mid:   #4a3828;
+  --sand:  #d6ccba;
+  --muted: rgba(44,33,23,0.45);
+  --ink:   rgba(44,33,23,0.7);
+  --border:rgba(44,33,23,0.12);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODO MANTENIMIENTO
+══════════════════════════════════════════════════════ */
+#mantenimiento{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  background:var(--dark);
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:2rem;
+}
+.mant-logo{
+  font-family:'KristenITC','Segoe Script','Comic Sans MS',cursive;
+  font-size:clamp(32px,8vw,58px);
+  color:var(--cream);
+  letter-spacing:.05em;
+  margin-bottom:1.6rem;
+}
+.mant-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,4vw,22px);
+  font-weight:300;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:.12em;
+  margin-bottom:2.5rem;
+  line-height:1.6;
+}
+.mant-deco{
+  width:40px;height:1px;background:rgba(255,255,255,0.2);
+  margin:0 auto 2.5rem;
+}
+.mant-wa{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:rgba(255,255,255,0.06);
+  border:0.5px solid rgba(255,255,255,0.15);
+  padding:12px 22px;border-radius:30px;
+  color:rgba(255,255,255,0.7);
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  text-decoration:none;transition:all .25s;
+}
+.mant-wa:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.mant-wa svg{width:16px;height:16px;fill:currentColor;flex-shrink:0;}
+.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.star{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  animation:twinkle 3s infinite ease-in-out;
+}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.7}}
+
+/* ═══════════════════════════════════════════════════════
+   TIENDA
+══════════════════════════════════════════════════════ */
+#tienda{
+  display:flex;
+  width:100vw;height:100vh;
+  position:relative;overflow:hidden;
+  flex-direction:column;
+}
+
+/* Topbar */
+.topbar{
+  flex-shrink:0;
+  padding:.75rem 1.2rem .6rem;
+  background:var(--cream);
+  border-bottom:0.5px solid var(--border);
+  position:relative;z-index:10;
+}
+.topbar-row1{display:flex;align-items:center;justify-content:space-between;gap:.6rem;}
+.brand-block{display:flex;flex-direction:column;gap:4px;}
+.brand{
+  font-family:'KristenITC','Segoe Script','Comic Sans MS',cursive;
+  font-size:26px;color:var(--dark);
+  letter-spacing:.04em;line-height:1;
+}
+
+.brand-info{
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  font-size:12px;
+  letter-spacing:.06em;
+  color:var(--ink);
+  line-height:1.5;
+}
+.brand-info a{color:var(--ink);text-decoration:none;}
+.brand-info a:hover{color:var(--dark);}
+
+/* Botones del topbar */
+.topbar-actions{display:flex;align-items:center;gap:.5rem;}
+
+/* Botón WhatsApp contacto directo */
+.wa-contact-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(44,33,23,0.07);
+  border:0.5px solid var(--border);
+  padding:6px 13px;border-radius:20px;
+  color:var(--ink);
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;
+  transition:all .22s;white-space:nowrap;
+}
+.wa-contact-btn:hover{background:rgba(44,33,23,0.13);color:var(--dark);}
+.wa-contact-btn svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+
+/* Botón lupa */
+.search-toggle{
+  background:none;border:none;cursor:pointer;
+  padding:4px;color:var(--muted);
+  transition:color .2s;display:flex;align-items:center;
+  flex-shrink:0;
+}
+.search-toggle:hover{color:var(--dark);}
+.search-toggle svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+
+/* Buscador en línea */
+.search-bar{
+  display:none;
+  align-items:center;gap:.5rem;
+  margin-top:.55rem;
+  padding:0;
+}
+.search-bar.open{display:flex;}
+.search-input{
+  flex:1;background:rgba(44,33,23,0.07);border:none;
+  border-radius:20px;padding:7px 14px;
+  color:var(--dark);font-family:'Jost',sans-serif;font-weight:300;
+  font-size:13px;outline:none;
+}
+.search-input::placeholder{color:var(--muted);}
+.search-close{
+  background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:18px;
+  padding:0 4px;line-height:1;
+}
+
+/* Resultados predictivos */
+.search-results{
+  position:absolute;top:100%;left:0;right:0;
+  background:rgba(245,241,235,0.98);
+  backdrop-filter:blur(8px);
+  z-index:19;max-height:50vh;overflow-y:auto;
+  border-bottom:0.5px solid var(--border);
+  box-shadow:0 8px 24px rgba(44,33,23,0.08);
+}
+.sr-item{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.75rem 1.2rem;cursor:pointer;
+  border-bottom:0.5px solid var(--border);
+  transition:background .15s;
+}
+.sr-item:hover{background:rgba(44,33,23,0.04);}
+.sr-swatch{width:36px;height:36px;border-radius:6px;flex-shrink:0;background-size:cover;background-position:center;}
+.sr-info{flex:1;}
+.sr-name{font-family:'Jost',sans-serif;font-weight:300;font-size:13px;color:var(--dark);}
+.sr-cat{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
+.sr-highlight{color:var(--dark);font-weight:400;}
+.sr-empty{padding:1.2rem;text-align:center;font-size:12px;color:var(--muted);letter-spacing:.1em;}
+
+/* Canvas */
+.canvas{flex:1;overflow:hidden;position:relative;}
+.pages-wrap{display:flex;height:100%;transition:transform .55s cubic-bezier(.77,0,.18,1);}
+
+/* CAMBIO 6: grid flexible para mosaico variado */
+.pg{
+  width:100vw;flex-shrink:0;height:100%;
+  display:grid;gap:3px;padding:3px;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(3,1fr);
+}
+
+.tile{border-radius:7px;overflow:hidden;position:relative;cursor:pointer;}
+.tile .bg{width:100%;height:100%;background-size:cover;background-position:center;transition:background-color 1.4s ease,transform .4s ease;}
+.tile:active .bg{transform:scale(1.02);}
+
+/* CAMBIO 7: etiqueta opcional */
+.lbl{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.65rem .75rem;
+  background:linear-gradient(to top,rgba(0,0,0,0.58) 0%,transparent 100%);
+}
+.lbl h3{font-family:'Cormorant Garamond',serif;font-size:13.5px;font-weight:300;color:#fff;line-height:1.3;letter-spacing:.04em;}
+.lbl span{font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.48);}
+
+.wa-tag{position:absolute;top:9px;right:9px;background:rgba(255,255,255,0.88);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:300;padding:3px 9px;border-radius:10px;color:#333;opacity:0;transition:opacity .5s;}
+.tile.show-wa .wa-tag{opacity:1;}
+
+.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.45);cursor:pointer;transition:background .3s;}
+.dot.on{background:rgba(255,255,255,0.9);}
+
+/* Modal */
+.modal{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal.open{opacity:1;pointer-events:all;}
+.mbg{position:absolute;inset:0;background:rgba(0,0,0,0.68);}
+.mimg{position:absolute;top:9vh;left:5vw;right:5vw;height:36vh;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.mimg .bg{width:100%;height:100%;background-size:cover;background-position:center;}
+.mcard{position:relative;background:var(--cream);border-radius:18px 18px 0 0;padding:1.5rem 1.3rem 3rem;z-index:1;}
+.mcat{font-family:'Jost',sans-serif;font-weight:200;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:#aaa;margin-bottom:.4rem;}
+.mtitle{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--dark);margin-bottom:.5rem;letter-spacing:.03em;}
+.mdesc{font-family:'Jost',sans-serif;font-weight:300;font-size:13px;color:#888;line-height:1.65;margin-bottom:1.3rem;}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;background:var(--dark);color:#fff;font-family:'Jost',sans-serif;font-weight:300;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:14px;border-radius:9px;cursor:pointer;text-decoration:none;transition:background .2s;}
+.wa-btn:hover{background:var(--mid);}
+.wa-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0;}
+.xbtn{position:absolute;top:1.1rem;right:1.1rem;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#999;border:none;}
+
+.empty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase;}
+
+/* Loading */
+.loading{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1rem;background:var(--cream);z-index:5;
+  transition:opacity .4s;
+}
+.loading.hidden{opacity:0;pointer-events:none;}
+.loading-brand{
+  font-family:'KristenITC','Segoe Script','Comic Sans MS',cursive;
+  font-size:28px;color:var(--dark);letter-spacing:.04em;
+}
+.loading-bar{
+  width:48px;height:2px;background:var(--border);border-radius:2px;overflow:hidden;
+}
+.loading-bar::after{
+  content:'';display:block;height:100%;width:40%;
+  background:var(--muted);border-radius:2px;
+  animation:loadslide 1.1s ease-in-out infinite;
+}
+@keyframes loadslide{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(350%)}
+}
+</style>
+</head>
+<body>
+
+<!-- MODO MANTENIMIENTO -->
+<div id="mantenimiento" style="display:none">
+  <div class="stars" id="stars"></div>
+  <div class="mant-logo">Pelusitas</div>
+  <div class="mant-deco"></div>
+  <div class="mant-subtitle">
+    Estamos preparando algo<br>muy especial para vos
+  </div>
+  <a class="mant-wa"
+     href="https://wa.me/59896190003?text=Hola%20Pelusitas%2C%20quiero%20recibir%20novedades"
+     target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Avisame cuando abran
+  </a>
+</div>
+
+<!-- TIENDA -->
+<div id="tienda" style="display:flex">
+
+  <div class="topbar">
+    <div class="topbar-row1">
+      <div class="brand-block">
+        <div class="brand">pelusitas</div>
+        <!-- CAMBIO 1: más grande y con más contraste -->
+        <div class="brand-info">
+          18 de julio 1218, Montevideo &nbsp;·&nbsp;
+          <a href="tel:+59896190003">096 190 003</a>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <!-- CAMBIO 3/4: botón contacto WhatsApp directo -->
+        <a class="wa-contact-btn"
+           href="https://wa.me/59896190003?text=Hola%20Pelusitas%21%20Quiero%20consultar%20sobre%20sus%20productos"
+           target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Contacto
+        </a>
+        <button class="search-toggle" onclick="toggleSearch()" aria-label="Buscar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CAMBIO 5: buscador en línea, debajo del nombre, no tapa nada -->
+    <div class="search-bar" id="searchBar" style="position:relative;">
+      <input class="search-input" id="searchInput" type="search"
+             placeholder="Buscar producto…" autocomplete="off"
+             oninput="onSearch(this.value)">
+      <button class="search-close" onclick="closeSearch()">✕</button>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- CAMBIO 2: sin pills de categorías — todo se muestra como una sola colección -->
+
+  <div class="canvas" id="canvas">
+    <div class="loading" id="loading">
+      <div class="loading-brand">pelusitas</div>
+      <div class="loading-bar"></div>
+    </div>
+    <div class="pages-wrap" id="pwrap"></div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="mbg" onclick="closeModal()"></div>
+    <div class="mimg"><div class="bg" id="mimg-bg"></div></div>
+    <div class="mcard">
+      <button class="xbtn" onclick="closeModal()">✕</button>
+      <div class="mcat" id="mcat"></div>
+      <div class="mtitle" id="mtitle"></div>
+      <div class="mdesc" id="mdesc"></div>
+      <a class="wa-btn" id="wa-link" href="#" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Consultar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const WA_NUMBER = '59896190003';
+
+// ─── CONFIGURACIÓN GITHUB ──────────────────────────────────────
+// Reemplazá estos dos valores con tu usuario y nombre de repo de GitHub
+const GH_USER = 'fdovat-cell';
+const GH_REPO = 'pelusitas';
+// Las imágenes se sirven desde jsDelivr CDN (rápido, sin límites)
+const CDN_BASE = `https://cdn.jsdelivr.net/gh/${GH_USER}/${GH_REPO}@main`;
+const CATALOGO_URL = `${CDN_BASE}/catalogo.json`;
+
+let PRODUCTOS = [];
+
+// ─── CAMBIO 6: plantillas de mosaico variado ──────────────────
+// Cada plantilla define slots con: col, row, colSpan, rowSpan
+// Grilla 4 cols × 3 filas
+const LAYOUT_TEMPLATES = [
+  // T1: tall izquierda clásico
+  [
+    {c:1,r:1,cs:1,rs:2},
+    {c:2,r:1,cs:1,rs:1},{c:3,r:1,cs:1,rs:1},{c:4,r:1,cs:1,rs:1},
+    {c:2,r:2,cs:1,rs:1},{c:3,r:2,cs:1,rs:1},{c:4,r:2,cs:1,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T2: grande 2×2 arriba-izquierda
+  [
+    {c:1,r:1,cs:2,rs:2},
+    {c:3,r:1,cs:1,rs:1},{c:4,r:1,cs:1,rs:1},
+    {c:3,r:2,cs:1,rs:1},{c:4,r:2,cs:1,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T3: wide arriba + tall derecha
+  [
+    {c:1,r:1,cs:2,rs:1},{c:3,r:1,cs:1,rs:2},{c:4,r:1,cs:1,rs:1},
+    {c:1,r:2,cs:1,rs:1},{c:2,r:2,cs:1,rs:1},{c:4,r:2,cs:1,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T4: dos tall en los costados
+  [
+    {c:1,r:1,cs:1,rs:2},{c:2,r:1,cs:2,rs:1},{c:4,r:1,cs:1,rs:2},
+    {c:2,r:2,cs:2,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T5: tall derecha
+  [
+    {c:1,r:1,cs:1,rs:1},{c:2,r:1,cs:1,rs:1},{c:3,r:1,cs:1,rs:1},{c:4,r:1,cs:1,rs:2},
+    {c:1,r:2,cs:1,rs:1},{c:2,r:2,cs:1,rs:1},{c:3,r:2,cs:1,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T6: grande 2×2 centro-derecha
+  [
+    {c:1,r:1,cs:1,rs:1},{c:3,r:1,cs:2,rs:2},{c:2,r:1,cs:1,rs:1},
+    {c:1,r:2,cs:1,rs:1},{c:2,r:2,cs:1,rs:1},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T7: wide fila completa arriba
+  [
+    {c:1,r:1,cs:4,rs:1},
+    {c:1,r:2,cs:1,rs:2},{c:2,r:2,cs:1,rs:1},{c:3,r:2,cs:1,rs:1},{c:4,r:2,cs:1,rs:1},
+    {c:2,r:3,cs:1,rs:1},{c:3,r:3,cs:1,rs:1},{c:4,r:3,cs:1,rs:1},
+  ],
+  // T8: grande abajo-derecha
+  [
+    {c:1,r:1,cs:1,rs:1},{c:2,r:1,cs:1,rs:1},{c:3,r:1,cs:1,rs:1},{c:4,r:1,cs:1,rs:1},
+    {c:1,r:2,cs:1,rs:1},{c:2,r:2,cs:1,rs:1},{c:3,r:2,cs:2,rs:2},
+    {c:1,r:3,cs:1,rs:1},{c:2,r:3,cs:1,rs:1},
+  ],
+];
+
+const bgColors = ["#c9bfb0","#d4c9b8","#c2b9a8","#d8cfc0","#c5bba9","#d0c6b4","#bfb5a3","#cfc5b2","#ddd3c2","#b8af9e","#cac0ae","#d6ccba"];
+function rndColor(){ return bgColors[Math.floor(Math.random()*bgColors.length)]; }
+function rndTemplate(){ return LAYOUT_TEMPLATES[Math.floor(Math.random()*LAYOUT_TEMPLATES.length)]; }
+
+let curPage = 0, totalPages = 0, colorAnim, pageAnim;
+let lastLayouts = [];
+
+function buildPageData(prods){
+  const pages = [];
+  let i = 0;
+  while(i < prods.length){
+    const tpl = rndTemplate();
+    const count = tpl.length;
+    pages.push({ prods: prods.slice(i, i+count), tpl });
+    i += count;
+  }
+  return pages;
+}
+
+function render(prods){
+  const src = prods || PRODUCTOS;
+  const wrap = document.getElementById('pwrap');
+  wrap.innerHTML=''; wrap.style.transform='translateX(0)'; curPage=0;
+
+  if(!src.length){
+    wrap.innerHTML='<div class="empty" style="width:100vw">Sin resultados</div>';
+    document.getElementById('dots').innerHTML=''; totalPages=0; return;
+  }
+
+  const pages = buildPageData(src);
+  totalPages = pages.length;
+
+  pages.forEach((pg, pi) => {
+    const div = document.createElement('div'); div.className='pg';
+    pg.tpl.forEach((slot, ti) => {
+      if(ti >= pg.prods.length) return;
+      const prod = pg.prods[ti];
+      const t = document.createElement('div');
+      t.className = 'tile';
+      t.style.cssText = `grid-column:${slot.c}/span ${slot.cs};grid-row:${slot.r}/span ${slot.rs};`;
+      const bgStyle = prod.img
+        ? `background-image:url(${prod.img});background-color:${prod.bg}`
+        : `background-color:${prod.bg}`;
+      // CAMBIO 7: solo muestra label si showTitle === true
+      const lblHtml = prod.showTitle
+        ? `<div class="lbl"><span>${prod.label}</span><h3>${prod.title}</h3></div>`
+        : '';
+      t.innerHTML=`<div class="bg" style="${bgStyle}"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+      t.onclick=()=>openModal(prod);
+      div.appendChild(t);
+    });
+    wrap.appendChild(div);
+  });
+
+  const dotsEl=document.getElementById('dots'); dotsEl.innerHTML='';
+  if(pages.length>1) pages.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' on':'');
+    d.onclick=()=>{ goPage(i); resetPageTimer(); }; dotsEl.appendChild(d);
+  });
+}
+
+function goPage(n){
+  const pages = document.querySelectorAll('.pg');
+  if(n < 0) n = pages.length - 1;
+  if(n >= pages.length) n = 0;
+  curPage = n;
+  document.getElementById('pwrap').style.transform=`translateX(-${n*100}vw)`;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.className='dot'+(i===n?' on':''));
+}
+
+function startColorAnim(){
+  clearInterval(colorAnim);
+  colorAnim=setInterval(()=>{
+    document.querySelectorAll('.tile .bg').forEach(b=>{if(!b.style.backgroundImage) b.style.backgroundColor=rndColor();});
+    document.querySelectorAll('.tile').forEach(t=>t.classList.remove('show-wa'));
+    const tiles=document.querySelectorAll('.tile');
+    if(tiles.length) tiles[Math.floor(Math.random()*tiles.length)].classList.add('show-wa');
+  },2200);
+}
+
+function startPageTimer(){
+  clearInterval(pageAnim);
+  if(totalPages < 2) return;
+  pageAnim=setInterval(()=>{
+    goPage(curPage + 1);
+  }, 5000);
+}
+
+function resetPageTimer(){
+  startPageTimer();
+}
+
+// ─── BUSCADOR ─────────────────────────────────────────────────
+function toggleSearch(){
+  const bar=document.getElementById('searchBar');
+  bar.classList.toggle('open');
+  if(bar.classList.contains('open')) setTimeout(()=>document.getElementById('searchInput').focus(),50);
+  else closeSearch();
+}
+function closeSearch(){
+  document.getElementById('searchBar').classList.remove('open');
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchResults').innerHTML='';
+}
+function highlight(text,query){
+  if(!query) return text;
+  const re=new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');
+  return text.replace(re,'<span class="sr-highlight">$1</span>');
+}
+function onSearch(q){
+  const rs=document.getElementById('searchResults');
+  q=q.trim();
+  if(!q){ rs.innerHTML=''; return; }
+  const matches=PRODUCTOS.filter(p=>
+    p.title.toLowerCase().includes(q.toLowerCase())||
+    p.desc.toLowerCase().includes(q.toLowerCase())||
+    (p.label||'').toLowerCase().includes(q.toLowerCase())
+  ).slice(0,8);
+  if(!matches.length){ rs.innerHTML='<div class="sr-empty">Sin resultados</div>'; return; }
+  rs.innerHTML=matches.map((p,i)=>{
+    const bgStyle=p.img?`background-image:url(${p.img});background-color:${p.bg||'#d4c9b8'}`:`background-color:${p.bg||'#d4c9b8'}`;
+    return `<div class="sr-item" onclick="pickResult(${PRODUCTOS.indexOf(p)})">
+      <div class="sr-swatch" style="${bgStyle}"></div>
+      <div class="sr-info">
+        <div class="sr-name">${highlight(p.title,q)}</div>
+        <div class="sr-cat">${p.label||'Colección'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function pickResult(idx){
+  closeSearch();
+  openModal(PRODUCTOS[idx]);
+}
+
+// ─── MODAL ────────────────────────────────────────────────────
+function openModal(prod){
+  clearInterval(colorAnim); clearInterval(pageAnim);
+  document.querySelectorAll('.tile').forEach(t=>t.classList.remove('show-wa'));
+  const mb=document.getElementById('mimg-bg');
+  mb.style.backgroundImage=prod.img?`url(${prod.img})`:'';
+  mb.style.backgroundColor=prod.bg;
+  document.getElementById('mcat').textContent=prod.label;
+  document.getElementById('mtitle').textContent=prod.title;
+  document.getElementById('mdesc').textContent=prod.desc;
+  const msg=encodeURIComponent(`Hola Pelusitas! Me interesa: ${prod.title}`);
+  document.getElementById('wa-link').href=`https://wa.me/${WA_NUMBER}?text=${msg}`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  startColorAnim();
+  startPageTimer();
+}
+
+// ─── SWIPE ────────────────────────────────────────────────────
+let sx=0, sy=0;
+document.getElementById('canvas').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+document.getElementById('canvas').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  const dy=Math.abs(e.changedTouches[0].clientY-sy);
+  if(dy>Math.abs(dx)) return;
+  if(Math.abs(dx)>40){ goPage(dx<0?curPage+1:curPage-1); resetPageTimer(); }
+},{passive:true});
+
+// ─── ESTRELLAS MANTENIMIENTO ──────────────────────────────────
+(function(){
+  const c=document.getElementById('stars'); if(!c) return;
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div'); s.className='star';
+    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.animationDuration=(2+Math.random()*2)+'s';
+    c.appendChild(s);
+  }
+})();
+
+// ─── NORMALIZAR ITEM ─────────────────────────────────────────
+// Convierte rutas relativas de img a URLs completas de jsDelivr
+function normalizar(item){
+  const img = item.img
+    ? (item.img.startsWith('http') ? item.img : `${CDN_BASE}/${item.img}`)
+    : '';
+  return {
+    label: item.label || 'Colección',
+    title: item.title || '',
+    desc:  item.desc  || '',
+    img,
+    bg:        item.bg        || '#d4c9b8',
+    showTitle: item.showTitle || false,
+  };
+}
+
+// ─── ARRANCAR — carga catálogo desde GitHub ───────────────────
+async function init(){
+  try {
+    // Agrega timestamp para evitar caché del browser (jsDelivr cachea igual)
+    const res = await fetch(`${CATALOGO_URL}?v=${Date.now()}`);
+    if(!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    PRODUCTOS = data.map(normalizar);
+  } catch(e) {
+    // Si falla la carga, muestra mensaje amigable
+    console.warn('No se pudo cargar el catálogo:', e);
+    document.getElementById('pwrap').innerHTML =
+      '<div class="empty" style="width:100vw;flex-direction:column;gap:.8rem">' +
+      '<span>No se pudo cargar el catálogo</span>' +
+      '<span style="font-size:9px;opacity:.6">Verificá la conexión o la configuración de GitHub</span>' +
+      '</div>';
+    document.getElementById('loading').classList.add('hidden');
+    return;
+  }
+  // Ocultar loading con transición suave
+  const loader = document.getElementById('loading');
+  loader.classList.add('hidden');
+  setTimeout(()=>loader.remove(), 400);
+
+  render(PRODUCTOS);
+  startColorAnim();
+  startPageTimer();
+}
+
+init();
+</script>
+</body>
+</html>
