@@ -445,6 +445,7 @@ async function processImage(item){
           const canvas=document.createElement('canvas');
           const W=img.naturalWidth,H=img.naturalHeight;
           if(!W||!H)throw new Error('Imagen con dimensiones 0');
+          item.W=W;item.H=H;
           canvas.width=W;canvas.height=H;
           const ctx=canvas.getContext('2d');
 
@@ -589,7 +590,9 @@ async function uploadAll(){
         img:repoPath,
         bg:'#d4c9b8',
         showTitle:!!item.title,
-        tipo:item.tipo
+        tipo:item.tipo,
+        w:item.W||0,
+        h:item.H||0
       };
       CATALOGO.push(prod);
 
