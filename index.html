@@ -271,8 +271,7 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 const WA_NUMBER    = '59896190003';
 const GH_USER      = 'fdovat-cell';
 const GH_REPO      = 'pelusitas';
-const CDN_BASE     = `https://cdn.jsdelivr.net/gh/${GH_USER}/${GH_REPO}@main`;
-const CATALOGO_URL = `${CDN_BASE}/catalogo.json`;
+const CATALOGO_URL = `catalogo.json`;
 let PRODUCTOS = [];
 
 // ── Layout templates (mobile: 3 cols, desktop: 4 cols) ──
@@ -494,7 +493,7 @@ document.getElementById('canvas').addEventListener('touchend',e=>{
 })();
 
 function normalizar(item){
-  const img=item.img?(item.img.startsWith('http')?item.img:`${CDN_BASE}/${item.img}`):'';
+  const img = item.img || '';
   return{label:item.label||'Colección',title:item.title||'',desc:item.desc||'',img,bg:item.bg||'#d4c9b8',showTitle:item.showTitle||false};
 }
 
