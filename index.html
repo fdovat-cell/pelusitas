@@ -449,7 +449,7 @@ function onSearch(q){
   if(!matches.length){rs.innerHTML='<div class="sr-empty">Sin resultados</div>';return;}
   rs.innerHTML=matches.map(p=>{
     const bgStyle=p.img?`background-image:url(${p.img});background-color:${p.bg||'#d4c9b8'}`:`background-color:${p.bg||'#d4c9b8'}`;
-    return `<div class="sr-item" onclick="pickResult(${PRODUCTOS.indexOf(p)})"><div class="sr-swatch" style="${bgStyle}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title,q)}</div><div class="sr-cat">${p.label||'Colecci\xf3n'}</div></div></div>`;
+    return `<div class="sr-item" onclick="pickResult(${PRODUCTOS.indexOf(p)})"><div class="sr-swatch" style="${bgStyle}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title,q)}</div><div class="sr-cat">${p.label||'Colección'}</div></div></div>`;
   }).join('');
 }
 function pickResult(idx){closeSearch();openModal(PRODUCTOS[idx]);}
@@ -495,7 +495,7 @@ document.getElementById('canvas').addEventListener('touchend',e=>{
 
 function normalizar(item){
   const img=item.img?(item.img.startsWith('http')?item.img:`${CDN_BASE}/${item.img}`):'';
-  return{label:item.label||'Colecci\xf3n',title:item.title||'',desc:item.desc||'',img,bg:item.bg||'#d4c9b8',showTitle:item.showTitle||false};
+  return{label:item.label||'Colección',title:item.title||'',desc:item.desc||'',img,bg:item.bg||'#d4c9b8',showTitle:item.showTitle||false};
 }
 
 async function init(){
@@ -505,8 +505,8 @@ async function init(){
     const data=await res.json();
     PRODUCTOS=data.map(normalizar);
   }catch(e){
-    console.warn('No se pudo cargar el cat\xe1logo:',e);
-    document.getElementById('pwrap').innerHTML='<div class="empty" style="width:100vw;flex-direction:column;gap:.8rem"><span>No se pudo cargar el cat\xe1logo</span><span style="font-size:9px;opacity:.6">Verific\xe1 la conexi\xf3n o el archivo catalogo.json</span></div>';
+    console.warn('No se pudo cargar el catálogo:',e);
+    document.getElementById('pwrap').innerHTML='<div class="empty" style="width:100vw;flex-direction:column;gap:.8rem"><span>No se pudo cargar el catálogo</span><span style="font-size:9px;opacity:.6">Verificá la conexión o el archivo catalogo.json</span></div>';
     document.getElementById('loading').classList.add('hidden');
     return;
   }
