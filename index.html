@@ -328,8 +328,70 @@ function rndTemplate(){
 let curPage=0,totalPages=0,colorAnim,pageAnim,fadeAnim;
 
 function buildPageData(prods){
-  const pages=[];let i=0;
-  while(i<prods.length){const tpl=rndTemplate();pages.push({prods:prods.slice(i,i+tpl.length),tpl});i+=tpl.length;}
+  // Clasifica cada producto por aspect ratio
+  // vertical (h>w*1.2) → rs:2  /  horizontal (w>h*1.2) → cs:2  /  cuadrado → cs:1,rs:1
+  function shape(p){
+    if(!p.w||!p.h)return'sq';
+    const r=p.w/p.h;
+    if(r<0.75)return'v';   // vertical
+    if(r>1.35)return'h';   // horizontal
+    return'sq';
+  }
+
+  // Intenta colocar productos en un grid 4×3 (desktop) o 3×3 (mobile)
+  // Devuelve array de páginas {prods, tpl}
+  // tpl = array de {c,r,cs,rs} igual que antes
+  const isMobile=window.innerWidth<680;
+  const COLS=isMobile?3:4;
+  const ROWS=3;
+
+  const pages=[];
+  let i=0;
+  while(i<prods.length){
+    // Construir una página: llenar celdas del grid con los siguientes productos
+    const grid=Array.from({length:ROWS},()=>Array(COLS).fill(false));
+    const tpl=[];
+    const pagProds=[];
+
+    function occupied(c,r,cs,rs){
+      for(let rr=r;rr<r+rs;rr++)
+        for(let cc=c;cc<c+cs;cc++)
+          if(rr>=ROWS||cc>=COLS||grid[rr][cc])return true;
+      return false;
+    }
+    function occupy(c,r,cs,rs){
+      for(let rr=r;rr<r+rs;rr++)
+        for(let cc=c;cc<c+cs;cc++)
+          grid[rr][cc]=true;
+    }
+    function freeCount(){let n=0;for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(!grid[r][c])n++;return n;}
+
+    let pi=i;
+    outer:
+    for(let r=0;r<ROWS;r++){
+      for(let c=0;c<COLS;c++){
+        if(grid[r][c])continue;
+        if(pi>=prods.length)break outer;
+        const prod=prods[pi];
+        const s=shape(prod);
+        let cs=1,rs=1;
+        if(s==='v'&&!occupied(c,r,1,2))rs=2;
+        else if(s==='h'&&!occupied(c,r,2,1))cs=2;
+        // Si no cabe el span preferido, poner como 1×1
+        if(occupied(c,r,cs,rs)){cs=1;rs=1;}
+        if(!occupied(c,r,cs,rs)){
+          tpl.push({c:c+1,r:r+1,cs,rs});
+          pagProds.push(prod);
+          occupy(c,r,cs,rs);
+          pi++;
+        }
+      }
+    }
+
+    if(pagProds.length===0)break; // evitar loop infinito
+    pages.push({prods:pagProds,tpl});
+    i=pi;
+  }
   return pages;
 }
 
@@ -494,7 +556,7 @@ document.getElementById('canvas').addEventListener('touchend',e=>{
 
 function normalizar(item){
   const img = item.img || '';
-  return{label:item.label||'Colección',title:item.title||'',desc:item.desc||'',img,bg:item.bg||'#d4c9b8',showTitle:item.showTitle||false};
+  return{label:item.label||'Colección',title:item.title||'',desc:item.desc||'',img,bg:item.bg||'#d4c9b8',showTitle:item.showTitle||false,w:item.w||0,h:item.h||0};
 }
 
 async function init(){
