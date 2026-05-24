@@ -1,7 +1,7 @@
 [
   {
     "title": "jumper de pana",
-    "label": "ColecciÃ³n",
+    "label": "ColecciÃÂ³n",
     "desc": "",
     "img": "fotos/jumper-pana.webp",
     "bg": "#d4c9b8",
@@ -9,10 +9,19 @@
     "tipo": "modelo"
   },
   {
-    "title": "camisa leñadora forrada",
-    "label": "Colección",
+    "title": "camisa leÃ±adora forrada",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/campera 2603verde.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo"
+  },
+  {
+    "title": "campera pana forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/2601.webp",
     "bg": "#d4c9b8",
     "showTitle": true,
     "tipo": "modelo"
