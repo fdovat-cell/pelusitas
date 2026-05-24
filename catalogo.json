@@ -2,5 +2,14 @@
   {
     "nombre": "Jumper Pana",
     "imagen": "img/jumper-pana.webp"
+  },
+  {
+    "title": "jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/jumper-pana.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo"
   }
 ]
