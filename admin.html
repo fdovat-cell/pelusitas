@@ -439,39 +439,46 @@ const BG_COLOR='#f0ebe3'; // crema del sitio
 async function processImage(item){
   return new Promise((resolve,reject)=>{
     const img=new Image();
-    img.onload=async()=>{
-      const canvas=document.createElement('canvas');
-      const W=img.naturalWidth,H=img.naturalHeight;
-      canvas.width=W;canvas.height=H;
-      const ctx=canvas.getContext('2d');
+    img.onload=()=>{
+      (async()=>{
+        try{
+          const canvas=document.createElement('canvas');
+          const W=img.naturalWidth,H=img.naturalHeight;
+          if(!W||!H)throw new Error('Imagen con dimensiones 0');
+          canvas.width=W;canvas.height=H;
+          const ctx=canvas.getContext('2d');
 
-      if(item.tipo==='prenda'){
-        // Fondo crema
-        ctx.fillStyle=BG_COLOR;
-        ctx.fillRect(0,0,W,H);
-        // Imagen centrada
-        ctx.drawImage(img,0,0,W,H);
-        // Logo en esquina inferior derecha
-        const logo=await loadLogo();
-        if(logo){
-          const logoH=Math.round(H*0.09);
-          const logoW=Math.round(logo.naturalWidth*(logoH/logo.naturalHeight));
-          const margin=Math.round(W*0.025);
-          ctx.globalAlpha=0.75;
-          ctx.drawImage(logo,W-logoW-margin,H-logoH-margin,logoW,logoH);
-          ctx.globalAlpha=1;
-        }
-      }else{
-        // Modelo: tal cual
-        ctx.drawImage(img,0,0,W,H);
-      }
+          if(item.tipo==='prenda'){
+            ctx.fillStyle=BG_COLOR;
+            ctx.fillRect(0,0,W,H);
+            ctx.drawImage(img,0,0,W,H);
+            const logo=await loadLogo();
+            if(logo&&logo.naturalWidth){
+              const logoH=Math.round(H*0.09);
+              const logoW=Math.round(logo.naturalWidth*(logoH/logo.naturalHeight));
+              const margin=Math.round(W*0.025);
+              ctx.globalAlpha=0.75;
+              ctx.drawImage(logo,W-logoW-margin,H-logoH-margin,logoW,logoH);
+              ctx.globalAlpha=1;
+            }
+          }else{
+            ctx.drawImage(img,0,0,W,H);
+          }
 
-      canvas.toBlob(blob=>{
-        if(blob){item.blob=blob;resolve();}
-        else reject(new Error('toBlob falló'));
-      },'image/webp',0.87);
+          // Intentar WebP, si falla usar JPEG
+          canvas.toBlob(blob=>{
+            if(blob&&blob.size>0){item.blob=blob;resolve();}
+            else{
+              canvas.toBlob(blob2=>{
+                if(blob2&&blob2.size>0){item.blob=blob2;resolve();}
+                else reject(new Error('toBlob produjo blob vacío'));
+              },'image/jpeg',0.9);
+            }
+          },'image/webp',0.87);
+        }catch(e){reject(e);}
+      })();
     };
-    img.onerror=reject;
+    img.onerror=(e)=>reject(new Error('No se pudo cargar la imagen: '+item.name));
     img.src=item.dataUrl;
   });
 }
@@ -597,11 +604,11 @@ async function uploadAll(){
     renderQueue();
   }
 
-  // Guardar catálogo actualizado
+  // Guardar catálogo actualizado (obtener SHA sin pisar CATALOGO)
   try{
     ubText.textContent='Actualizando catálogo…';
-    catSha=await fetchCatalogo(); // re-fetch sha actual
-    await saveCatalogo(catSha);
+    const latestSha=await getFileSha(`catalogo.json`);
+    await saveCatalogo(latestSha);
     toast(`${done} foto${done!==1?'s':''} subida${done!==1?'s':''}. jsDelivr tarda ~10 min en actualizar.`,'ok');
   }catch(e){
     toast('Error al actualizar catálogo: '+e.message,'err');
@@ -646,12 +653,11 @@ function renderCatalogo(){
 async function deleteProd(i){
   const p=CATALOGO[i];
   if(!confirm(`¿Eliminar "${p.title||p.img}" del catálogo?`))return;
-  CATALOGO.splice(i,1);
+  const copia=[...CATALOGO];
+  copia.splice(i,1);
   try{
-    const sha=await fetchCatalogo();
-    // Re-fetch para tener SHA actual, pero usar nuestro CATALOGO ya modificado
-    // Volver a eliminar del array que vino del fetch
-    const freshCat=CATALOGO; // ya lo modificamos arriba
+    const sha=await getFileSha('catalogo.json');
+    CATALOGO=copia;
     await saveCatalogo(sha);
     toast('Producto eliminado del catálogo','ok');
     renderCatalogo();
