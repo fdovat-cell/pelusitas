@@ -328,19 +328,15 @@ function rndTemplate(){
 let curPage=0,totalPages=0,colorAnim,pageAnim,fadeAnim;
 
 function buildPageData(prods){
-  // Clasifica cada producto por aspect ratio
-  // vertical (h>w*1.2) → rs:2  /  horizontal (w>h*1.2) → cs:2  /  cuadrado → cs:1,rs:1
+  // Clasifica por aspect ratio. Sin dimensiones → vertical (ropa de niños casi siempre portrait)
   function shape(p){
-    if(!p.w||!p.h)return'sq';
+    if(!p.w||!p.h)return'v';
     const r=p.w/p.h;
-    if(r<0.75)return'v';   // vertical
-    if(r>1.35)return'h';   // horizontal
+    if(r<0.85)return'v';   // vertical / portrait
+    if(r>1.25)return'h';   // horizontal / landscape
     return'sq';
   }
 
-  // Intenta colocar productos en un grid 4×3 (desktop) o 3×3 (mobile)
-  // Devuelve array de páginas {prods, tpl}
-  // tpl = array de {c,r,cs,rs} igual que antes
   const isMobile=window.innerWidth<680;
   const COLS=isMobile?3:4;
   const ROWS=3;
@@ -348,23 +344,22 @@ function buildPageData(prods){
   const pages=[];
   let i=0;
   while(i<prods.length){
-    // Construir una página: llenar celdas del grid con los siguientes productos
     const grid=Array.from({length:ROWS},()=>Array(COLS).fill(false));
     const tpl=[];
     const pagProds=[];
 
-    function occupied(c,r,cs,rs){
+    function canPlace(c,r,cs,rs){
+      if(c+cs>COLS||r+rs>ROWS)return false;
       for(let rr=r;rr<r+rs;rr++)
         for(let cc=c;cc<c+cs;cc++)
-          if(rr>=ROWS||cc>=COLS||grid[rr][cc])return true;
-      return false;
+          if(grid[rr][cc])return false;
+      return true;
     }
     function occupy(c,r,cs,rs){
       for(let rr=r;rr<r+rs;rr++)
         for(let cc=c;cc<c+cs;cc++)
           grid[rr][cc]=true;
     }
-    function freeCount(){let n=0;for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(!grid[r][c])n++;return n;}
 
     let pi=i;
     outer:
@@ -375,11 +370,11 @@ function buildPageData(prods){
         const prod=prods[pi];
         const s=shape(prod);
         let cs=1,rs=1;
-        if(s==='v'&&!occupied(c,r,1,2))rs=2;
-        else if(s==='h'&&!occupied(c,r,2,1))cs=2;
-        // Si no cabe el span preferido, poner como 1×1
-        if(occupied(c,r,cs,rs)){cs=1;rs=1;}
-        if(!occupied(c,r,cs,rs)){
+        if(s==='v'&&canPlace(c,r,1,2)){rs=2;}
+        else if(s==='h'&&canPlace(c,r,2,1)){cs=2;}
+        // si el span preferido no cabe, intentar 1×1
+        if(!canPlace(c,r,cs,rs)){cs=1;rs=1;}
+        if(canPlace(c,r,cs,rs)){
           tpl.push({c:c+1,r:r+1,cs,rs});
           pagProds.push(prod);
           occupy(c,r,cs,rs);
@@ -388,7 +383,7 @@ function buildPageData(prods){
       }
     }
 
-    if(pagProds.length===0)break; // evitar loop infinito
+    if(pagProds.length===0)break;
     pages.push({prods:pagProds,tpl});
     i=pi;
   }
