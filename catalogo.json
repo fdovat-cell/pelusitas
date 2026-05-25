@@ -1,7 +1,7 @@
 [
   {
     "title": "Campera impermeable forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/IMG_20260121_092805.webp",
     "bg": "#d4c9b8",
@@ -9,16 +9,5 @@
     "tipo": "prenda",
     "w": 2928,
     "h": 3204
-  },
-  {
-    "title": "Conjunto tejido Osito",
-    "label": "Colección",
-    "desc": "",
-    "img": "fotos/conjuntotejido.webp",
-    "bg": "#d4c9b8",
-    "showTitle": true,
-    "tipo": "prenda",
-    "w": 1056,
-    "h": 992
   }
 ]
