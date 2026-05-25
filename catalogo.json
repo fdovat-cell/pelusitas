@@ -18,17 +18,6 @@
     "bg": "#d4c9b8",
     "showTitle": false,
     "tipo": "prenda",
-    "w": 495,
-    "h": 562
-  },
-  {
-    "title": "gorro-aviador (1)",
-    "label": "ColecciÃ³n",
-    "desc": "",
-    "img": "fotos/gorro-aviador (1).webp",
-    "bg": "#d4c9b8",
-    "showTitle": false,
-    "tipo": "prenda",
     "w": 992,
     "h": 1056
   },
