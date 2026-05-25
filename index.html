@@ -83,15 +83,20 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 .tile{
   border-radius:6px;overflow:hidden;position:relative;cursor:pointer;
   background:var(--cream2);min-height:0;min-width:0;
+  /* fuerza compositing: fix overflow:hidden+border-radius en iOS */
+  transform:translateZ(0);
+  -webkit-mask-image:-webkit-radial-gradient(white,black);
+  isolation:isolate;
 }
 .tile-empty{
   border-radius:6px;background:var(--cream);min-height:0;min-width:0;
-  pointer-events:none;
+  pointer-events:none;transform:translateZ(0);
 }
 .tile .bg,.tile .bg2{
   position:absolute;inset:0;
-  background-size:cover;background-position:center center;
-  transition:opacity 1.4s ease;
+  background-size:cover;background-position:center top;
+  transition:opacity 2s ease;
+  will-change:opacity;
 }
 .tile .bg{opacity:1;}
 .tile .bg2{opacity:0;}
