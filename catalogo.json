@@ -1,7 +1,7 @@
 [
   {
     "title": "Campera forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_a7p00aa7p00aa7p0.webp",
     "bg": "#d4c9b8",
@@ -12,7 +12,7 @@
   },
   {
     "title": "Enterito plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -23,7 +23,7 @@
   },
   {
     "title": "Conjunto tejido Osito",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/conjuntotejido.webp",
     "bg": "#d4c9b8",
@@ -31,16 +31,5 @@
     "tipo": "prenda",
     "w": 1056,
     "h": 992
-  },
-  {
-    "title": "Conjunto tejido crochet",
-    "label": "Colección",
-    "desc": "",
-    "img": "fotos/Gemini_Generated_Image_3ytrzs3ytrzs3ytr.webp",
-    "bg": "#d4c9b8",
-    "showTitle": true,
-    "tipo": "prenda",
-    "w": 1184,
-    "h": 864
   }
 ]
