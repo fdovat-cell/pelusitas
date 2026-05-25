@@ -173,6 +173,22 @@ body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color
 
 /* ── Empty ── */
 .empty-cat{padding:3rem;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.15em;text-transform:uppercase;}
+
+/* ── Toggle remoción de fondo ── */
+.bg-toggle{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;user-select:none;}
+.bg-toggle input{display:none;}
+.bg-toggle-track{
+  position:relative;width:32px;height:18px;border-radius:9px;
+  background:rgba(44,33,23,0.15);transition:background .2s;flex-shrink:0;
+}
+.bg-toggle input:checked ~ .bg-toggle-track{background:var(--green);}
+.bg-toggle-thumb{
+  position:absolute;top:3px;left:3px;width:12px;height:12px;
+  border-radius:50%;background:#fff;transition:transform .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.bg-toggle input:checked ~ .bg-toggle-track .bg-toggle-thumb{transform:translateX(14px);}
+.bg-toggle-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);}
 </style>
 </head>
 <body>
@@ -371,8 +387,10 @@ function dzDrop(e,tipo){
 function onFiles(files,tipo){
   [...files].forEach(f=>{
     if(!f.type.startsWith('image/'))return;
+    // removeBg: true por defecto solo para prendas
     const item={file:f,tipo,name:f.name,status:'pending',blob:null,dataUrl:null,
-      title:'',label:'Colección',desc:'',showTitle:false};
+      title:'',label:'Colección',desc:'',showTitle:false,
+      removeBg: tipo==='prenda'};
     queue.push(item);
     readPreview(item);
   });
@@ -406,8 +424,18 @@ function renderQueue(){
             placeholder="Descripción" value="${esc(it.desc)}"
             onchange="queue[${i}].desc=this.value">
         </div>
-        <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px;">
-          ${it.tipo==='prenda'?'Prenda · fondo automático':'Modelo · tal cual'}
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:.55rem;flex-wrap:wrap;">
+          <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">
+            ${it.tipo==='prenda'?'Prenda':'Modelo'}
+          </span>
+          ${it.tipo==='prenda'?`
+          <label class="bg-toggle" title="Activar/desactivar remoción de fondo para esta foto">
+            <input type="checkbox" ${it.removeBg?'checked':''} onchange="queue[${i}].removeBg=this.checked;renderQueue()">
+            <span class="bg-toggle-track">
+              <span class="bg-toggle-thumb"></span>
+            </span>
+            <span class="bg-toggle-label">${it.removeBg?'Quitar fondo: ON':'Quitar fondo: OFF'}</span>
+          </label>`:''}
         </div>
       </div>
       <span class="qi-status ${it.status}">${statusLabel(it.status)}</span>
@@ -522,15 +550,16 @@ async function processImage(item){
           canvas.width=W; canvas.height=H;
           const ctx=canvas.getContext('2d',{willReadFrequently:true});
 
-          if(item.tipo==='prenda'){
-            // 1. Dibujar la imagen original sobre el canvas
-            ctx.drawImage(img,0,0,W,H);
+          // Siempre dibujar la imagen base
+          ctx.drawImage(img,0,0,W,H);
 
-            // 2. Remover el fondo (flood fill desde los bordes)
-            //    Reemplaza el fondo original con el color crema del sitio
+          if(item.tipo==='prenda' && item.removeBg){
+            // Remover fondo (flood fill desde bordes)
             removeBackground(ctx, W, H, BG_COLOR, 45);
+          }
 
-            // 3. Superponer logo en esquina inferior derecha
+          if(item.tipo==='prenda'){
+            // Superponer logo en esquina inferior derecha
             const logo=await loadLogo();
             if(logo&&logo.naturalWidth){
               const logoH=Math.round(H*0.09);
@@ -540,10 +569,8 @@ async function processImage(item){
               ctx.drawImage(logo, W-logoW-margin, H-logoH-margin, logoW, logoH);
               ctx.globalAlpha=1;
             }
-          }else{
-            // Modelo: solo convertir a WebP sin procesar
-            ctx.drawImage(img,0,0,W,H);
           }
+          // Modelo: solo convierte a WebP (ya dibujado arriba)
 
           // Intentar WebP, si falla usar JPEG
           canvas.toBlob(blob=>{
