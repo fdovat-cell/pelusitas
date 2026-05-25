@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "title": "Campera impermeable forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/IMG_20260121_092805.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 2928,
+    "h": 3204
+  }
+]
