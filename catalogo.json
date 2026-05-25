@@ -9,16 +9,5 @@
     "tipo": "prenda",
     "w": 992,
     "h": 1056
-  },
-  {
-    "title": "gorro-aviador (12)",
-    "label": "ColecciÃ³n",
-    "desc": "",
-    "img": "fotos/gorro-aviador (12).webp",
-    "bg": "#d4c9b8",
-    "showTitle": false,
-    "tipo": "prenda",
-    "w": 1056,
-    "h": 992
   }
 ]
