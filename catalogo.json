@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "title": "Enterito plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/70362.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 864,
+    "h": 1184
+  },
+  {
+    "title": "Ajuar primera muda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/ajuar-2.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 864,
+    "h": 648
+  },
+  {
+    "title": "Conjunto tejido Osito",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/conjuntotejido.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1056,
+    "h": 992
+  },
+  {
+    "title": "Conjunto tejido/crochet",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_3ytrzs3ytrzs3ytr.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Jumper de pana con camisa",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_10bizj10bizj10bi.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Campera algodon",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_84vknp84vknp84vk.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Campera algodon con corderito",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_a7p00aa7p00aa7p0.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1120,
+    "h": 928
+  },
+  {
+    "title": "Conjunto plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_helqtghelqtghelq.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Campera de pana forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_mce76emce76emce7.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1248,
+    "h": 832
+  },
+  {
+    "title": "Buzo algodón",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_wqht36wqht36wqht.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Campera impermeable forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/Gemini_Generated_Image_wv19bowv19bowv19.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "campera de pana forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/WhatsAppImage (1).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 146,
+    "h": 163
+  }
+]
