@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "title": "camisaco escoces forrado",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/2603.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 3060,
+    "h": 2568
+  }
+]
