@@ -408,11 +408,9 @@ function buildPageData(prods){
     const slots = tpl.length;
 
     // ── 2. Tomar el chunk de productos para esta página ──
-    let chunk = prods.slice(i, i + slots);
-    // Rellenar si hay menos fotos que slots (última página o catálogo pequeño)
-    while(chunk.length < slots){
-      chunk.push(prods[chunk.length % prods.length]);
-    }
+    // No se repiten fotos: si hay menos fotos que slots, el grid tiene celdas vacías
+    // (se muestran como fondo crema, lo que queda bien en un catálogo pequeño)
+    const chunk = prods.slice(i, i + slots);
 
     // ── 3. Asignación inteligente: foto → slot por forma coincidente ──
     // Clasificar índices de slots por orientación
@@ -453,16 +451,26 @@ function buildPageData(prods){
     pullFrom(portraitIdx,  tallSlots);
     pullFrom(landscapeIdx, wideSlots);
 
-    // Segundo: fotos restantes (o square) → slots restantes (cualquier forma)
+    // Segundo: fotos restantes (square o sobrantes) → slots restantes en orden
     const leftoverPhotos = [...portraitIdx, ...landscapeIdx, ...squareIdx, ...unassigned];
-    const leftoverSlots  = assignment.map((_,i) => i).filter(i => assignment[i] === -1);
+    const leftoverSlots  = assignment.map((_,idx) => idx).filter(idx => assignment[idx] === -1);
     for(let s = 0; s < leftoverSlots.length; s++){
-      assignment[leftoverSlots[s]] = leftoverPhotos[s] ?? 0;
+      // Solo asignar si hay foto disponible; si no, el slot queda vacío (-1)
+      if(s < leftoverPhotos.length){
+        assignment[leftoverSlots[s]] = leftoverPhotos[s];
+      }
     }
 
-    // ── 4. Construir la página con el orden asignado ──
-    const pagProds = assignment.map(photoIdx => chunk[photoIdx >= 0 ? photoIdx : 0]);
-    pages.push({ prods: pagProds, tpl });
+    // ── 4. Construir la página solo con los slots que tienen foto asignada ──
+    // Los slots con assignment=-1 se omiten: el grid CSS los deja como celda vacía crema
+    const pagProds = [], pagTpl = [];
+    assignment.forEach((photoIdx, slotIdx) => {
+      if(photoIdx >= 0){
+        pagProds.push(chunk[photoIdx]);
+        pagTpl.push(tpl[slotIdx]);
+      }
+    });
+    pages.push({ prods: pagProds, tpl: pagTpl });
 
     i += Math.min(slots, prods.length - i);
     if(i >= prods.length) break;
