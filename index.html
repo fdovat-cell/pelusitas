@@ -84,6 +84,10 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   border-radius:6px;overflow:hidden;position:relative;cursor:pointer;
   background:var(--cream2);min-height:0;min-width:0;
 }
+.tile-empty{
+  border-radius:6px;background:var(--cream);min-height:0;min-width:0;
+  pointer-events:none;
+}
 .tile .bg,.tile .bg2{
   position:absolute;inset:0;
   background-size:cover;background-position:center center;
@@ -314,37 +318,62 @@ function isMobile(){ return window.innerWidth < 640; }
 
 let curPage=0, totalPages=0, pageAnim, waAnim, fadeTimers=[];
 
-/* ── Elegir layout aleatorio diferente al anterior ── */
-function pickLayout(prev){
+/* ── Clasificar orientación de una foto ── */
+function shapeOf(prod){
+  if(!prod.w || !prod.h) return 'v'; // sin datos → asumir portrait
+  const r = prod.w / prod.h;
+  if(r < 0.85) return 'v';   // portrait / vertical
+  if(r > 1.25) return 'h';   // landscape / horizontal
+  return 'sq';
+}
+function slotShape(slot){
+  if(slot.rs > slot.cs) return 'v';
+  if(slot.cs > slot.rs) return 'h';
+  return 'sq';
+}
+
+/* ── Elegir layout considerando la orientación del hero ──
+   Prioriza layouts cuyo slot 'H' coincide con la orientación
+   de la foto que va a ser el hero (primera del chunk).
+*/
+function pickLayout(heroProduct, prevIdx){
   const src = isMobile() ? MOBILE_LAYOUTS : DESKTOP_LAYOUTS;
-  let idx;
-  do { idx = Math.floor(Math.random()*src.length); } while(src.length>1 && idx===prev);
-  return {layout: src[idx], idx};
+  const heroShape = heroProduct ? shapeOf(heroProduct) : 'sq';
+
+  // Candidatos: distinto al anterior
+  let candidates = src.map((l,i)=>({l,i})).filter(x=>x.i!==prevIdx);
+  if(!candidates.length) candidates = src.map((l,i)=>({l,i}));
+
+  // Preferir layouts cuyo heroSlot coincide con la foto
+  const matching = candidates.filter(({l})=>{
+    const hs = slotShape(l.tiles['H']);
+    return hs === heroShape || heroShape === 'sq';
+  });
+  const pool = matching.length ? matching : candidates;
+  const chosen = pool[Math.floor(Math.random()*pool.length)];
+  return {layout: chosen.l, idx: chosen.i};
 }
 
 /* ── Construir páginas ──
-   Cada página necesita tantos slots como claves tiene layout.tiles.
-   Los productos se consumen en orden. Si hay menos que slots,
-   se rellena desde el principio (para evitar tiles vacíos en catálogos chicos).
+   REGLA: cada foto se usa UNA sola vez. Si hay menos productos
+   que slots en la última página, los slots sobrantes quedan vacíos
+   (se renderizan como fondo crema — nunca se repiten fotos).
 */
 function buildPages(prods){
   if(!prods.length) return [];
   const pages=[];
   let i=0, prevIdx=-1;
-  // Necesitamos al menos tantos productos como tiles por página
-  // Con pocos productos hacemos una sola página
-  while(i < prods.length || pages.length===0){
-    const {layout, idx} = pickLayout(prevIdx);
+  while(i < prods.length){
+    // Elegir layout considerando la orientación de la foto hero (la primera del chunk)
+    const heroProduct = prods[i];
+    const {layout, idx} = pickLayout(heroProduct, prevIdx);
     prevIdx = idx;
-    const keys = Object.keys(layout.tiles); // ['H','a','b',…]
+    const keys = Object.keys(layout.tiles);
     const nSlots = keys.length;
-    const chunk=[];
-    for(let s=0;s<nSlots;s++){
-      chunk.push(prods[(i+s) % prods.length]);
-    }
-    pages.push({layout, prods:chunk});
-    i += nSlots;
-    if(i >= prods.length) break;
+    // Solo tomar los productos disponibles — sin repetición
+    const chunk = prods.slice(i, i + nSlots);
+    pages.push({layout, prods: chunk});
+    i += chunk.length;
   }
   return pages;
 }
@@ -375,10 +404,18 @@ function render(prods){
 
     const keys=Object.keys(layout.tiles);
     keys.forEach((key, ki)=>{
-      const prod=pg.prods[ki];
+      const prod=pg.prods[ki]; // puede ser undefined si hay menos fotos que slots
       const t=document.createElement('div');
-      t.className='tile';
       t.style.gridArea=key;
+
+      if(!prod){
+        // Tile vacío: solo fondo crema, sin interacción
+        t.className='tile tile-empty';
+        div.appendChild(t);
+        return;
+      }
+
+      t.className='tile';
       const bgStyle=prod.img
         ?`background-image:url(${prod.img});background-color:${prod.bg||'#d4c9b8'}`
         :`background-color:${prod.bg||'#d4c9b8'}`;
