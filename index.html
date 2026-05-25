@@ -482,25 +482,28 @@ function startFade(){
   const prodsCon=PRODUCTOS.filter(p=>p.img);
   if(prodsCon.length<2) return;
 
+  const FADE_DUR = 2000; // ms que dura el cruce de opacidad
+
   function scheduleFade(tile){
-    const delay=3000+Math.random()*7000; // entre 3 y 10 s
+    const delay = 6000 + Math.random()*9000; // entre 6 y 15 s por tile
     const tid=setTimeout(()=>{
-      // Solo si el tile sigue en el DOM
-      if(!tile.isConnected){ return; }
+      if(!tile.isConnected) return;
       const bg=tile.querySelector('.bg');
       const bg2=tile.querySelector('.bg2');
       if(!bg||!bg2) return;
-      // Nuevo producto aleatorio distinto al actual
       const curr=bg.style.backgroundImage;
       let np;
       do { np=prodsCon[Math.floor(Math.random()*prodsCon.length)]; }
       while(prodsCon.length>1 && `url(${np.img})`===curr);
+      bg2.style.transition=`opacity ${FADE_DUR/1000}s ease`;
+      bg.style.transition =`opacity ${FADE_DUR/1000}s ease`;
       bg2.style.backgroundImage=`url(${np.img})`;
       bg2.style.backgroundColor=np.bg||'#d4c9b8';
       bg2.style.opacity='0';
-      requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
         bg2.style.opacity='1';
         bg.style.opacity='0';
+        // después de que termina el cruce, consolidar y reprogramar
         setTimeout(()=>{
           bg.style.backgroundImage=bg2.style.backgroundImage;
           bg.style.backgroundColor=bg2.style.backgroundColor;
@@ -509,9 +512,9 @@ function startFade(){
           bg2.style.backgroundImage='';
           tile._prod=np;
           tile.onclick=()=>openModal(np);
-          scheduleFade(tile); // reprogramar este tile
-        },1400);
-      });
+          scheduleFade(tile);
+        }, FADE_DUR + 100);
+      }));
     },delay);
     fadeTimers.push(tid);
   }
@@ -618,6 +621,20 @@ function normalizar(item){
   };
 }
 
+/* ── Medir dimensiones reales de imagen ── */
+function measureImg(url){
+  return new Promise(res=>{
+    if(!url){res({w:0,h:0});return;}
+    const img=new Image();
+    const done=()=>res({w:img.naturalWidth||0,h:img.naturalHeight||0});
+    img.onload=done;
+    img.onerror=()=>res({w:0,h:0});
+    // timeout 4s para no bloquear
+    setTimeout(()=>res({w:0,h:0}),4000);
+    img.src=url;
+  });
+}
+
 /* ── Init ── */
 async function init(){
   try{
@@ -631,6 +648,15 @@ async function init(){
     document.getElementById('loading').classList.add('hidden');
     return;
   }
+
+  // Medir dimensiones de productos que no las tengan (necesario para elegir layout)
+  await Promise.all(PRODUCTOS.map(async p=>{
+    if(!p.w || !p.h){
+      const {w,h}=await measureImg(p.img);
+      p.w=w; p.h=h;
+    }
+  }));
+
   const loader=document.getElementById('loading');
   loader.classList.add('hidden');
   setTimeout(()=>loader.remove(),400);
