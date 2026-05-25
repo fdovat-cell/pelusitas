@@ -7,16 +7,5 @@
     "bg": "#d4c9b8",
     "showTitle": true,
     "tipo": "modelo"
-  },
-  {
-    "title": "Camisaco leÃ±ador forrado",
-    "label": "ColecciÃ³n",
-    "desc": "",
-    "img": "fotos/2603 liso.webp",
-    "bg": "#d4c9b8",
-    "showTitle": true,
-    "tipo": "prenda",
-    "w": 1120,
-    "h": 928
   }
 ]
