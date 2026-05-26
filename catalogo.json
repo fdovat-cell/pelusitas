@@ -1,7 +1,7 @@
 [
   {
     "title": "Enterito plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -12,7 +12,7 @@
   },
   {
     "title": "Ajuar primera muda",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/ajuar-2.webp",
     "bg": "#d4c9b8",
@@ -23,7 +23,7 @@
   },
   {
     "title": "Conjunto tejido Osito",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/conjuntotejido.webp",
     "bg": "#d4c9b8",
@@ -34,7 +34,7 @@
   },
   {
     "title": "Conjunto tejido/crochet",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_3ytrzs3ytrzs3ytr.webp",
     "bg": "#d4c9b8",
@@ -45,7 +45,7 @@
   },
   {
     "title": "Jumper de pana con camisa",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_10bizj10bizj10bi.webp",
     "bg": "#d4c9b8",
@@ -56,7 +56,7 @@
   },
   {
     "title": "Campera algodon",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_84vknp84vknp84vk.webp",
     "bg": "#d4c9b8",
@@ -67,7 +67,7 @@
   },
   {
     "title": "Campera algodon con corderito",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_a7p00aa7p00aa7p0.webp",
     "bg": "#d4c9b8",
@@ -78,7 +78,7 @@
   },
   {
     "title": "Conjunto plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_helqtghelqtghelq.webp",
     "bg": "#d4c9b8",
@@ -89,7 +89,7 @@
   },
   {
     "title": "Campera de pana forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_mce76emce76emce7.webp",
     "bg": "#d4c9b8",
@@ -99,8 +99,8 @@
     "h": 832
   },
   {
-    "title": "Buzo algodón",
-    "label": "Colección",
+    "title": "Buzo algodÃ³n",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_wqht36wqht36wqht.webp",
     "bg": "#d4c9b8",
@@ -111,7 +111,7 @@
   },
   {
     "title": "Campera impermeable forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/Gemini_Generated_Image_wv19bowv19bowv19.webp",
     "bg": "#d4c9b8",
@@ -122,7 +122,7 @@
   },
   {
     "title": "campera de pana forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/WhatsAppImage (1).webp",
     "bg": "#d4c9b8",
@@ -130,5 +130,203 @@
     "tipo": "prenda",
     "w": 146,
     "h": 163
+  },
+  {
+    "title": "Jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (14).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 832,
+    "h": 756
+  },
+  {
+    "title": "Conjunto plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (15).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 864,
+    "h": 1184
+  },
+  {
+    "title": "Vestido de pana con guarda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (16).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 728,
+    "h": 1052
+  },
+  {
+    "title": "Gorro aviador",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (1).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 495,
+    "h": 562
+  },
+  {
+    "title": "Campera de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (2).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1024,
+    "h": 904
+  },
+  {
+    "title": "JUmper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (2).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 686,
+    "h": 771
+  },
+  {
+    "title": "Zapatitos tejidos",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (3).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Escarpin corazón",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (4).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1069,
+    "h": 1058
+  },
+  {
+    "title": "Campera Leñadora",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (4).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 784,
+    "h": 752
+  },
+  {
+    "title": "Body plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (5).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Enterito plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (6).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 628,
+    "h": 760
+  },
+  {
+    "title": "Vestido pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (7).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 908,
+    "h": 960
+  },
+  {
+    "title": "Jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (8).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 804,
+    "h": 964
+  },
+  {
+    "title": "enterito plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (9).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 864,
+    "h": 872
+  },
+  {
+    "title": "conjunto tejido",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (10).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1024,
+    "h": 1024
+  },
+  {
+    "title": "conjunto con chaqueta",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (11).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 864,
+    "h": 1184
+  },
+  {
+    "title": "Vestido apana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (12).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1056,
+    "h": 992
+  },
+  {
+    "title": "Escarpín orejitas",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/gorro-aviador (13).webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 592,
+    "h": 520
   }
 ]
