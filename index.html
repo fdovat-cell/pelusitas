@@ -544,51 +544,16 @@ if(h3) h3.textContent = np.title || '';
 const span = tile.querySelector('.lbl span');
 if(span) span.textContent = np.label || '';
 
-function scheduleFade(tile){
-  const delay = 6000 + Math.random()*9000;
+scheduleFade(tile);
+        }, FADE_DUR + 100);
+      }));
+    },delay);
+    fadeTimers.push(tid);
+  }
 
-  const tid=setTimeout(()=>{
-
-    if(!tile.isConnected) return;
-
-    const bg=tile.querySelector('.bg');
-    if(!bg) return;
-
-    let np;
-    do{
-      np=prodsCon[Math.floor(Math.random()*prodsCon.length)];
-    }while(
-      prodsCon.length>1 &&
-      `url("${np.img}")`===bg.style.backgroundImage
-    );
-
-    bg.style.transition=`opacity ${FADE_DUR/1000}s ease`;
-
-    bg.style.opacity='0';
-
-    setTimeout(()=>{
-
-      bg.style.backgroundImage=`url(${np.img})`;
-      bg.style.backgroundColor=np.bg||'#d4c9b8';
-
-      tile._prod=np;
-      tile.onclick=()=>openModal(np);
-
-      const h3 = tile.querySelector('.lbl h3');
-      if(h3) h3.textContent = np.title || '';
-
-      const span = tile.querySelector('.lbl span');
-      if(span) span.textContent = np.label || '';
-
-      bg.style.opacity='1';
-
-      scheduleFade(tile);
-
-    }, FADE_DUR/2);
-
-  },delay);
-
-  fadeTimers.push(tid);
+  document.querySelectorAll('.tile').forEach(tile=>{
+    if(tile.querySelector('.bg')?.style.backgroundImage) scheduleFade(tile);
+  });
 }
 
 function stopAnimations(){
