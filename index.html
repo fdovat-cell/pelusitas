@@ -319,9 +319,18 @@ function buildPages(prods){
   return pages;
 }
 
+/* Espacios o (7) en el nombre rompen la URL si no se codifican */
+function encodeImgPath(path){
+  if(!path) return '';
+  return path.split('/').map(part => encodeURIComponent(part)).join('/');
+}
+function imgCssUrl(path){
+  const enc = encodeImgPath(path);
+  return enc ? `url("${enc}")` : '';
+}
 function bgStyle(prod){
   return prod.img
-    ? `background-image:url(${prod.img});background-color:${prod.bg || '#d4c9b8'}`
+    ? `background-image:${imgCssUrl(prod.img)};background-color:${prod.bg || '#d4c9b8'}`
     : `background-color:${prod.bg || '#d4c9b8'}`;
 }
 
@@ -610,7 +619,7 @@ function onSearch(q){
   rs.innerHTML = matches.map(p => {
     const idx = PRODUCTOS.indexOf(p);
     const bg = p.img
-      ? `background-image:url(${p.img});background-color:${p.bg || '#d4c9b8'}`
+      ? `background-image:${imgCssUrl(p.img)};background-color:${p.bg || '#d4c9b8'}`
       : `background-color:${p.bg || '#d4c9b8'}`;
     return `<div class="sr-item" onclick="pickResult(${idx})"><div class="sr-swatch" style="${bg}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title, q)}</div><div class="sr-cat">${p.label || 'Colección'}</div></div></div>`;
   }).join('');
@@ -628,7 +637,7 @@ function openModal(prod){
   document.querySelectorAll('.tile').forEach(t => t.classList.remove('show-wa'));
 
   const mb = document.getElementById('mimg-bg');
-  mb.style.backgroundImage = prod.img ? `url(${prod.img})` : '';
+  mb.style.backgroundImage = prod.img ? imgCssUrl(prod.img) : '';
   mb.style.backgroundColor = prod.bg || '#d4c9b8';
   document.getElementById('mcat').textContent = prod.label || '';
   document.getElementById('mtitle').textContent = prod.title || '';
@@ -700,7 +709,7 @@ function measureImg(url){
     img.onload = () => finish({ w: img.naturalWidth || 0, h: img.naturalHeight || 0 });
     img.onerror = () => finish({ w: 0, h: 0 });
     setTimeout(() => finish({ w: 0, h: 0 }), 4000);
-    img.src = url;
+    img.src = encodeImgPath(url);
   });
 }
 
