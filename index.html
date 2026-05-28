@@ -275,13 +275,22 @@ function shapeMatch(prodShape, slotSh){
   return 0;
 }
 
-/* Llena TODOS los slots de una pantalla reutilizando el catálogo (no divide fotos en tercios) */
+/* Llena slots sin repetir fotos dentro de la misma página */
 function fillSlotsCyclic(prods, slotCount, pageIndex){
   if(!prods.length || slotCount < 1) return [];
   const out = [];
-  const start = pageIndex * slotCount;
-  for(let i = 0; i < slotCount; i++){
-    out.push(prods[(start + i) % prods.length]);
+  const start = (pageIndex * slotCount) % prods.length;
+  const used = new Set();
+  // Primera pasada: fotos distintas empezando desde offset
+  for(let i = 0; i < prods.length && out.length < slotCount; i++){
+    const p = prods[(start + i) % prods.length];
+    if(!used.has(p.img)){ used.add(p.img); out.push(p); }
+  }
+  // Si faltan slots (mas slots que fotos), completar ciclando sin repetir en lo posible
+  if(out.length < slotCount){
+    for(let i = 0; out.length < slotCount; i++){
+      out.push(prods[i % prods.length]);
+    }
   }
   return out;
 }
@@ -879,6 +888,15 @@ async function init(){
 }
 
 init();
+
+// Wake Lock: evita que la pantalla se apague mientras se navega el sitio
+if('wakeLock' in navigator){
+  const requestWakeLock = async () => {
+    try{ await navigator.wakeLock.request('screen'); }catch(e){}
+  };
+  requestWakeLock();
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible') requestWakeLock(); });
+}
 </script>
 </body>
 </html>
