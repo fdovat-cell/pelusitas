@@ -63,8 +63,6 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   border-radius:6px;overflow:hidden;position:relative;cursor:pointer;
   background:var(--cream2);min-height:0;min-width:0;
   transform:translateZ(0);
-  -webkit-mask-image:-webkit-radial-gradient(white,black);
-  isolation:isolate;
 }
 .tile-empty{border-radius:6px;background:var(--cream);min-height:0;min-width:0;pointer-events:none;transform:translateZ(0);}
 .tile .bg{
@@ -193,9 +191,7 @@ const MOBILE_LAYOUTS = [
   { cols:3, rows:4, areas:`"H H a" "H H b" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:3, rows:4, areas:`"a H H" "b H H" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:3, rows:4, areas:`"a b c" "H H d" "H H e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b c" "d e f" "H H g" "H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"H a b" "H c d" "H e f" "g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b H" "c d H" "e f H" "g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} }
+  { cols:3, rows:4, areas:`"a b c" "d e f" "H H g" "H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} }
 ];
 
 const DESKTOP_LAYOUTS = [
@@ -263,6 +259,15 @@ function pickLayoutForGroup(group, prevIdx){
   let candidates = src.map((l, i) => ({ l, i })).filter(x => x.i !== prevIdx);
   if(!candidates.length) candidates = src.map((l, i) => ({ l, i }));
 
+  /* Celular: tile grande en cuadrado 2×2 (4 celdas), no columna vertical 1×3 */
+  if(isMobile()){
+    const cuadrado = candidates.filter(({ l }) => {
+      const h = l.tiles.H;
+      return h && h.cs >= 2 && h.rs >= 2;
+    });
+    if(cuadrado.length) candidates = cuadrado;
+  }
+
   let chosen = candidates[0];
   let bestScore = -1;
   for(const c of candidates){
@@ -328,10 +333,20 @@ function imgCssUrl(path){
   const enc = encodeImgPath(path);
   return enc ? `url("${enc}")` : '';
 }
+/* Para HTML inline: sin comillas internas (si no, se rompe style="...") */
 function bgStyle(prod){
+  const enc = encodeImgPath(prod.img);
   return prod.img
-    ? `background-image:${imgCssUrl(prod.img)};background-color:${prod.bg || '#d4c9b8'}`
+    ? `background-image:url(${enc});background-color:${prod.bg || '#d4c9b8'}`
     : `background-color:${prod.bg || '#d4c9b8'}`;
+}
+function applyTileBg(el, prod){
+  const enc = encodeImgPath(prod.img);
+  el.style.backgroundImage = enc ? `url("${enc}")` : '';
+  el.style.backgroundColor = prod.bg || '#d4c9b8';
+  el.style.backgroundSize = 'cover';
+  el.style.backgroundPosition = 'center center';
+  el.style.opacity = '1';
 }
 
 function escapeHtml(s){
@@ -356,12 +371,12 @@ function updateTileProduct(tile, prod){
     const lblHtml = prod.showTitle
       ? `<div class="lbl"><span>${escapeHtml(prod.label)}</span><h3>${escapeHtml(prod.title)}</h3></div>`
       : '';
-    tile.innerHTML = `<div class="bg" style="${bgStyle(prod)}"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+    tile.innerHTML = `<div class="bg"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+    applyTileBg(tile.querySelector('.bg'), prod);
     return;
   }
 
-  bg.style.cssText = bgStyle(prod);
-  bg.style.opacity = '1';
+  applyTileBg(bg, prod);
   const h3 = tile.querySelector('.lbl h3');
   if(h3) h3.textContent = prod.title || '';
   const span = tile.querySelector('.lbl span');
@@ -412,7 +427,8 @@ function render(prods){
       }
 
       t.className = 'tile shape-' + shapeOf(prod);
-      t.innerHTML = `<div class="bg" style="${bgStyle(prod)}"></div>${tileLabelHtml(prod)}<div class="wa-tag">WhatsApp</div>`;
+      t.innerHTML = `<div class="bg"></div>${tileLabelHtml(prod)}<div class="wa-tag">WhatsApp</div>`;
+      applyTileBg(t.querySelector('.bg'), prod);
       t._prod = prod;
       t.onclick = () => openModal(t._prod);
       div.appendChild(t);
@@ -618,8 +634,9 @@ function onSearch(q){
 
   rs.innerHTML = matches.map(p => {
     const idx = PRODUCTOS.indexOf(p);
+    const enc = encodeImgPath(p.img);
     const bg = p.img
-      ? `background-image:${imgCssUrl(p.img)};background-color:${p.bg || '#d4c9b8'}`
+      ? `background-image:url(${enc});background-color:${p.bg || '#d4c9b8'}`
       : `background-color:${p.bg || '#d4c9b8'}`;
     return `<div class="sr-item" onclick="pickResult(${idx})"><div class="sr-swatch" style="${bg}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title, q)}</div><div class="sr-cat">${p.label || 'Colección'}</div></div></div>`;
   }).join('');
