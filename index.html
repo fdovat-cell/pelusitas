@@ -236,17 +236,18 @@ function shuffleArr(arr){
   return a;
 }
 
-/* 2 fotos grandes (H + H2, cada una 2×2) por pantalla */
+/* Mobile: 2 heroes en diagonal. Layout A: hero izq-arriba + hero der-abajo. Layout B: inverso */
 const MOBILE_LAYOUTS = [
-  { cols:4, rows:4, areas:`"H H H2 H2" "H H H2 H2" "a b c d" "e f g h"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:5, areas:`"H H a" "H H b" "c H2 H2" "d H2 H2" "e f g"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1}} },
-  { cols:3, rows:5, areas:`"a H H" "b H H" "H2 H2 c" "H2 H2 d" "e f g"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1}} }
+  /* A: [GRANDE izq] [sm][sm] / [sm][sm] [GRANDE der] */
+  { cols:3, rows:4, areas:`"H H a" "H H b" "c H2 H2" "d H2 H2"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
+  /* B: [sm][sm] [GRANDE der] / [GRANDE izq] [sm][sm] */
+  { cols:3, rows:4, areas:`"a H H" "b H H" "H2 H2 c" "H2 H2 d"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} }
 ];
 
 const DESKTOP_LAYOUTS = [
-  { cols:4, rows:3, areas:`"H H H2 H2" "H H H2 H2" "a b c d"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c d" "H H H2 H2" "H H H2 H2"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
-  { cols:4, rows:4, areas:`"H H H2 H2" "H H H2 H2" "a b c d" "e f g h"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} }
+  { cols:4, rows:3, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:4, rows:4, areas:`"H H a b" "H H c d" "e f g i" "j k l m"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},i:{cs:1,rs:1},j:{cs:1,rs:1},k:{cs:1,rs:1},l:{cs:1,rs:1},m:{cs:1,rs:1}} }
 ];
 
 function isMobile(){ return window.innerWidth < 640; }
