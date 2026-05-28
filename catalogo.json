@@ -1,7 +1,7 @@
 [
   {
     "title": "Enterito plush",
-    "label": "ColecciÃÂÃÂ³n",
+    "label": "ColecciÃÂÃÂÃÂÃÂ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -12,7 +12,7 @@
   },
   {
     "title": "Jumper de pana",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/17.webp",
     "bg": "#d4c9b8",
@@ -23,7 +23,7 @@
   },
   {
     "title": "Conjkunto plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/18.webp",
     "bg": "#d4c9b8",
@@ -34,7 +34,7 @@
   },
   {
     "title": "Vestido de pana con guarda",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/19.webp",
     "bg": "#d4c9b8",
@@ -45,7 +45,7 @@
   },
   {
     "title": "Gorrito aviador",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/1.webp",
     "bg": "#d4c9b8",
@@ -56,7 +56,7 @@
   },
   {
     "title": "Jumper de pana",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/2.webp",
     "bg": "#d4c9b8",
@@ -67,7 +67,7 @@
   },
   {
     "title": "Campera de pana forrada",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/3.webp",
     "bg": "#d4c9b8",
@@ -78,7 +78,7 @@
   },
   {
     "title": "Jumper de pana",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/4.webp",
     "bg": "#d4c9b8",
@@ -89,7 +89,7 @@
   },
   {
     "title": "zapatitos crochet",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/6.webp",
     "bg": "#d4c9b8",
@@ -99,8 +99,8 @@
     "h": 864
   },
   {
-    "title": "Camisa leñadora",
-    "label": "Colección",
+    "title": "Camisa leÃ±adora",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/7.webp",
     "bg": "#d4c9b8",
@@ -111,7 +111,7 @@
   },
   {
     "title": "Conjunto de plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/8.webp",
     "bg": "#d4c9b8",
@@ -122,7 +122,7 @@
   },
   {
     "title": "Enterito de plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/9.webp",
     "bg": "#d4c9b8",
@@ -133,7 +133,7 @@
   },
   {
     "title": "Vestido de pana con guarda",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/10.webp",
     "bg": "#d4c9b8",
@@ -144,7 +144,7 @@
   },
   {
     "title": "JUmper de pana con camisa",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/11.webp",
     "bg": "#d4c9b8",
@@ -155,7 +155,7 @@
   },
   {
     "title": "enterito plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/12.webp",
     "bg": "#d4c9b8",
@@ -166,7 +166,7 @@
   },
   {
     "title": "conjunto tejido con gorrito",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/13.webp",
     "bg": "#d4c9b8",
@@ -177,7 +177,7 @@
   },
   {
     "title": "Conjunto vestido con chaqueta",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/14.webp",
     "bg": "#d4c9b8",
@@ -188,7 +188,7 @@
   },
   {
     "title": "vestido de pana",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/15.webp",
     "bg": "#d4c9b8",
@@ -199,7 +199,7 @@
   },
   {
     "title": "Escarpines tejidos",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/16.webp",
     "bg": "#d4c9b8",
@@ -207,5 +207,137 @@
     "tipo": "prenda",
     "w": 592,
     "h": 520
+  },
+  {
+    "title": "Campera impermeable forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/30.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Set 1ra muda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/19.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 331,
+    "h": 257
+  },
+  {
+    "title": "Chaqueton de pana forrado",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/20.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 146,
+    "h": 163
+  },
+  {
+    "title": "Set 1ra muda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/21.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 864,
+    "h": 648
+  },
+  {
+    "title": "Conjunto tejido bebe",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/22.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1056,
+    "h": 992
+  },
+  {
+    "title": "conjunto tejido-crochet",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/23.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Jumper de pana con camisa",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/24.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Buzo algodón",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/25.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Campera algodón forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/26.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1120,
+    "h": 928
+  },
+  {
+    "title": "Conjunto plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/27.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Campera pana forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/28.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1248,
+    "h": 832
+  },
+  {
+    "title": "Buzo algodón",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/29.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "modelo",
+    "w": 1184,
+    "h": 864
   }
 ]
