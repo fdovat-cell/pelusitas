@@ -230,18 +230,15 @@ function shapeMatch(prodShape, slotSh){
   return 0;
 }
 
-function splitInThirds(prods){
-  const groups = [[], [], []];
-  if(!prods.length) return groups;
-  let i = 0;
-  for(let p = 0; p < FIXED_PAGES; p++){
-    const remaining = prods.length - i;
-    const pagesLeft = FIXED_PAGES - p;
-    const count = Math.ceil(remaining / pagesLeft);
-    groups[p] = prods.slice(i, i + count);
-    i += count;
+/* Llena TODOS los slots de una pantalla reutilizando el catálogo (no divide fotos en tercios) */
+function fillSlotsCyclic(prods, slotCount, pageIndex){
+  if(!prods.length || slotCount < 1) return [];
+  const out = [];
+  const start = pageIndex * slotCount;
+  for(let i = 0; i < slotCount; i++){
+    out.push(prods[(start + i) % prods.length]);
   }
-  return groups;
+  return out;
 }
 
 function layoutFitScore(group, layout){
@@ -304,20 +301,20 @@ function assignProductsToSlots(products, layout){
 function buildPages(prods){
   if(!prods.length) return [];
 
-  const groups = splitInThirds(prods);
   const pages = [];
   let prevIdx = -1;
 
   for(let p = 0; p < FIXED_PAGES; p++){
-    const group = groups[p];
-    const { layout, idx } = pickLayoutForGroup(group, prevIdx);
+    const { layout, idx } = pickLayoutForGroup(prods, prevIdx);
     prevIdx = idx;
 
     const keys = Object.keys(layout.tiles);
-    const { assignment, pool } = assignProductsToSlots(group, layout);
+    const candidates = fillSlotsCyclic(prods, keys.length, p);
+    const { assignment } = assignProductsToSlots(candidates, layout);
     const prodsOnScreen = keys.map(k => assignment.get(k) || null);
 
-    pages.push({ layout, keys, prods: prodsOnScreen, pool });
+    /* En cada pantalla rotan TODAS las fotos válidas, no solo un tercio */
+    pages.push({ layout, keys, prods: prodsOnScreen, pool: [...prods] });
   }
   return pages;
 }
