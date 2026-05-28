@@ -68,12 +68,6 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   transition:transform .6s cubic-bezier(.77,0,.18,1);
 }
 
-/*
-  Página: grid CSS irregular.
-  Cada .pg recibe inline vars --cols y --rows y un
-  grid-template-areas vía JS para los layouts irregulares.
-  Usamos gap pequeño para el look de collage.
-*/
 .pg{
   width:100vw;flex-shrink:0;height:100%;min-height:0;
   display:grid;gap:4px;padding:4px;
@@ -83,7 +77,6 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 .tile{
   border-radius:6px;overflow:hidden;position:relative;cursor:pointer;
   background:var(--cream2);min-height:0;min-width:0;
-  /* fuerza compositing: fix overflow:hidden+border-radius en iOS */
   transform:translateZ(0);
   -webkit-mask-image:-webkit-radial-gradient(white,black);
   isolation:isolate;
@@ -92,14 +85,13 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   border-radius:6px;background:var(--cream);min-height:0;min-width:0;
   pointer-events:none;transform:translateZ(0);
 }
-.tile .bg,.tile .bg2{
+.tile .bg{
   position:absolute;inset:0;
   background-size:cover;background-position:center top;
-  transition:opacity 2s ease;
+  transition:opacity .45s ease;
   will-change:opacity;
+  opacity:1;
 }
-.tile .bg{opacity:1;}
-.tile .bg2{opacity:0;}
 
 /* Etiqueta nombre */
 .lbl{position:absolute;bottom:0;left:0;right:0;padding:.6rem .7rem;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%);}
@@ -130,7 +122,6 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   overflow:hidden;
   box-shadow:0 20px 60px rgba(0,0,0,0.4);
 }
-
 .modal .bg,
 .mimg .bg{
   width:100%;
@@ -140,7 +131,6 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   background-position:center;
   background-color:#f0ebe3;
 }
-  
 .mcard{position:relative;background:var(--cream);border-radius:18px 18px 0 0;padding:1.4rem 1.3rem 2.5rem;z-index:1;}
 .mcat{font-family:'Jost',sans-serif;font-weight:200;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#aaa;margin-bottom:.4rem;}
 .mtitle{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--dark);margin-bottom:.4rem;letter-spacing:.03em;}
@@ -168,7 +158,7 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   <img class="mant-logo-img" src="logo.png" alt="Pelusitas">
   <div class="mant-deco"></div>
   <div class="mant-subtitle">Estamos preparando algo<br>muy especial para vos</div>
-  <a class="mant-wa" href="https://wa.me/59896190003?text=Hola%20Pelusitas%2C%20quiero%20recibir%20novedades" target="_blank">
+  <a class="mant-wa" href="https://wa.me/59896190003?text=Hola%20Pelusitas%2C%20quiero%20recibir%20novedades" target="_blank" rel="noopener noreferrer">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Avisame cuando abran
   </a>
@@ -186,7 +176,7 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
         </div>
       </div>
       <div class="topbar-actions">
-        <a class="wa-contact-btn" href="https://wa.me/59896190003?text=Hola%20Pelusitas%21%20Quiero%20hacer%20una%20consulta" target="_blank">
+        <a class="wa-contact-btn" href="https://wa.me/59896190003?text=Hola%20Pelusitas%21%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Contacto
         </a>
@@ -196,7 +186,7 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
       </div>
     </div>
     <div class="search-bar" id="searchBar" style="position:relative;">
-      <input class="search-input" id="searchInput" type="search" placeholder="Buscar producto…" autocomplete="off" oninput="onSearch(this.value)">
+      <input class="search-input" id="searchInput" type="search" placeholder="Buscar producto..." autocomplete="off" oninput="onSearch(this.value)">
       <button class="search-close" onclick="closeSearch()">&times;</button>
       <div class="search-results" id="searchResults"></div>
     </div>
@@ -220,7 +210,7 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
       <div class="mcat" id="mcat"></div>
       <div class="mtitle" id="mtitle"></div>
       <div class="mdesc" id="mdesc"></div>
-      <a class="wa-btn" id="wa-link" href="#" target="_blank">
+      <a class="wa-btn" id="wa-link" href="#" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Consultar por WhatsApp
       </a>
@@ -233,122 +223,37 @@ const WA_NUMBER    = '59896190003';
 const CATALOGO_URL = 'catalogo.json';
 let PRODUCTOS = [];
 
-/* ══════════════════════════════════════════════════════
-   LAYOUTS IRREGULARES
-   Cada layout define:
-     cols / rows  — dimensiones del grid
-     tiles[]      — {name, cs, rs} (col-span, row-span)
-     bigIdx       — índice del tile grande (cs+rs máximos)
-
-   El grid tiene SIEMPRE un tile "hero" (2×2 o 2×3) y el
-   resto son tiles 1×1 o 1×2. Cada tile llena su celda
-   con background-size:cover → la foto se recorta si hace falta.
-
-   Mobile: 3 cols × 4 rows  (portrait-first)
-   Desktop: 4 cols × 3 rows
-
-   bigIdx varía entre layouts → el hero aparece en distintas
-   posiciones de la pantalla.
-══════════════════════════════════════════════════════ */
-
-// ── Mobile (3 cols, 4 rows) ──
-// tiles[] = lista de {cs,rs}; el grid los coloca de izq→der, arriba→abajo
-// Se usa grid-template-areas para ubicación precisa del hero.
+/* Layouts */
 const MOBILE_LAYOUTS = [
-  // Hero arriba-izquierda (2×2), resto 1×1 y 1×2
-  {
-    cols:3, rows:4,
-    areas:`"H H a" "H H b" "c d e" "f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero arriba-derecha (2×2)
-  {
-    cols:3, rows:4,
-    areas:`"a H H" "b H H" "c d e" "f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero centro (2×2), pequeños arriba y abajo
-  {
-    cols:3, rows:4,
-    areas:`"a b c" "H H d" "H H e" "f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero abajo-izquierda (2×2)
-  {
-    cols:3, rows:4,
-    areas:`"a b c" "d e f" "H H g" "H H h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero alto izquierda (1×3) + columnas de 4
-  {
-    cols:3, rows:4,
-    areas:`"H a b" "H c d" "H e f" "g h i"`,
-    tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}}
-  },
-  // Hero alto derecha (1×3)
-  {
-    cols:3, rows:4,
-    areas:`"a b H" "c d H" "e f H" "g h i"`,
-    tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}}
-  },
+  { cols:3, rows:4, areas:`"H H a" "H H b" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"a H H" "b H H" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"a b c" "H H d" "H H e" "f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"a b c" "d e f" "H H g" "H H h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"H a b" "H c d" "H e f" "g h i"`, tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"a b H" "c d H" "e f H" "g h i"`, tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}} }
 ];
 
-// ── Desktop (4 cols, 3 rows) ──
 const DESKTOP_LAYOUTS = [
-  // Hero arriba-izquierda (2×2)
-  {
-    cols:4, rows:3,
-    areas:`"H H a b" "H H c d" "e f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero arriba-derecha (2×2)
-  {
-    cols:4, rows:3,
-    areas:`"a b H H" "c d H H" "e f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero centro (2×2)
-  {
-    cols:4, rows:3,
-    areas:`"a H H b" "c H H d" "e f g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero abajo-izquierda (2×2)
-  {
-    cols:4, rows:3,
-    areas:`"a b c d" "H H e f" "H H g h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero abajo-centro (2×2)
-  {
-    cols:4, rows:3,
-    areas:`"a b c d" "e H H f" "g H H h"`,
-    tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}}
-  },
-  // Hero columna izquierda (1×3) — muy vertical
-  {
-    cols:4, rows:3,
-    areas:`"H a b c" "H d e f" "H g h i"`,
-    tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}}
-  },
-  // Hero columna derecha (1×3)
-  {
-    cols:4, rows:3,
-    areas:`"a b c H" "d e f H" "g h i H"`,
-    tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}}
-  },
+  { cols:4, rows:3, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a H H b" "c H H d" "e f g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c d" "H H e f" "H H g h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c d" "e H H f" "g H H h"`, tiles:{H:{cs:2,rs:2}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"H a b c" "H d e f" "H g h i"`, tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c H" "d e f H" "g h i H"`, tiles:{H:{cs:1,rs:3}, a:{cs:1,rs:1}, b:{cs:1,rs:1}, c:{cs:1,rs:1}, d:{cs:1,rs:1}, e:{cs:1,rs:1}, f:{cs:1,rs:1}, g:{cs:1,rs:1}, h:{cs:1,rs:1}, i:{cs:1,rs:1}} }
 ];
 
 function isMobile(){ return window.innerWidth < 640; }
 
-let curPage=0, totalPages=0, pageAnim, waAnim, fadeTimers=[];
+let curPage=0, totalPages=0, pageAnim, waAnim;
+let pageFadeRestartTimer = null;
+const fadeTimersByTile = new Map();
 
-/* ── Clasificar orientación de una foto ── */
 function shapeOf(prod){
-  if(!prod.w || !prod.h) return 'v'; // sin datos → asumir portrait
+  if(!prod.w || !prod.h) return 'v';
   const r = prod.w / prod.h;
-  if(r < 0.85) return 'v';   // portrait / vertical
-  if(r > 1.25) return 'h';   // landscape / horizontal
+  if(r < 0.85) return 'v';
+  if(r > 1.25) return 'h';
   return 'sq';
 }
 function slotShape(slot){
@@ -356,46 +261,28 @@ function slotShape(slot){
   if(slot.cs > slot.rs) return 'h';
   return 'sq';
 }
-
-/* ── Elegir layout considerando la orientación del hero ──
-   Prioriza layouts cuyo slot 'H' coincide con la orientación
-   de la foto que va a ser el hero (primera del chunk).
-*/
 function pickLayout(heroProduct, prevIdx){
   const src = isMobile() ? MOBILE_LAYOUTS : DESKTOP_LAYOUTS;
   const heroShape = heroProduct ? shapeOf(heroProduct) : 'sq';
-
-  // Candidatos: distinto al anterior
   let candidates = src.map((l,i)=>({l,i})).filter(x=>x.i!==prevIdx);
   if(!candidates.length) candidates = src.map((l,i)=>({l,i}));
-
-  // Preferir layouts cuyo heroSlot coincide con la foto
   const matching = candidates.filter(({l})=>{
-    const hs = slotShape(l.tiles['H']);
+    const hs = slotShape(l.tiles.H);
     return hs === heroShape || heroShape === 'sq';
   });
   const pool = matching.length ? matching : candidates;
   const chosen = pool[Math.floor(Math.random()*pool.length)];
   return {layout: chosen.l, idx: chosen.i};
 }
-
-/* ── Construir páginas ──
-   REGLA: cada foto se usa UNA sola vez. Si hay menos productos
-   que slots en la última página, los slots sobrantes quedan vacíos
-   (se renderizan como fondo crema — nunca se repiten fotos).
-*/
 function buildPages(prods){
   if(!prods.length) return [];
   const pages=[];
   let i=0, prevIdx=-1;
   while(i < prods.length){
-    // Elegir layout considerando la orientación de la foto hero (la primera del chunk)
     const heroProduct = prods[i];
     const {layout, idx} = pickLayout(heroProduct, prevIdx);
     prevIdx = idx;
-    const keys = Object.keys(layout.tiles);
-    const nSlots = keys.length;
-    // Solo tomar los productos disponibles — sin repetición
+    const nSlots = Object.keys(layout.tiles).length;
     const chunk = prods.slice(i, i + nSlots);
     pages.push({layout, prods: chunk});
     i += chunk.length;
@@ -403,12 +290,14 @@ function buildPages(prods){
   return pages;
 }
 
-/* ── Renderizar grilla ── */
 function render(prods){
+  stopAnimations();
+
   const wrap=document.getElementById('pwrap');
   wrap.innerHTML='';
   wrap.style.transform='translateX(0)';
   curPage=0;
+
   if(!prods.length){
     wrap.innerHTML='<div class="empty-msg">Sin resultados</div>';
     document.getElementById('dots').innerHTML='';
@@ -419,7 +308,7 @@ function render(prods){
   const pages=buildPages(prods);
   totalPages=pages.length;
 
-  pages.forEach((pg, pi)=>{
+  pages.forEach((pg)=>{
     const {layout} = pg;
     const div=document.createElement('div');
     div.className='pg';
@@ -429,12 +318,11 @@ function render(prods){
 
     const keys=Object.keys(layout.tiles);
     keys.forEach((key, ki)=>{
-      const prod=pg.prods[ki]; // puede ser undefined si hay menos fotos que slots
+      const prod=pg.prods[ki];
       const t=document.createElement('div');
       t.style.gridArea=key;
 
       if(!prod){
-        // Tile vacío: solo fondo crema, sin interacción
         t.className='tile tile-empty';
         div.appendChild(t);
         return;
@@ -445,16 +333,17 @@ function render(prods){
         ?`background-image:url(${prod.img});background-color:${prod.bg||'#d4c9b8'}`
         :`background-color:${prod.bg||'#d4c9b8'}`;
       const lblHtml=prod.showTitle
-        ?`<div class="lbl"><span>${prod.label||''}</span><h3>${prod.title||''}</h3></div>`:'';
-      t.innerHTML=`<div class="bg" style="${bgStyle}"></div><div class="bg2"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+        ?`<div class="lbl"><span>${prod.label||''}</span><h3>${prod.title||''}</h3></div>`
+        :'';
+      t.innerHTML=`<div class="bg" style="${bgStyle}"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
       t._prod=prod;
-      t.onclick=()=>openModal(prod);
+      t.onclick=()=>openModal(t._prod);
       div.appendChild(t);
     });
+
     wrap.appendChild(div);
   });
 
-  // Dots
   const dotsEl=document.getElementById('dots');
   dotsEl.innerHTML='';
   if(pages.length>1){
@@ -465,9 +354,12 @@ function render(prods){
       dotsEl.appendChild(d);
     });
   }
+
+  startWaAnim();
+  startPageTimer();
+  startFade();
 }
 
-/* ── Navegación de páginas ── */
 function goPage(n){
   const pgs=document.querySelectorAll('.pg');
   if(!pgs.length) return;
@@ -476,7 +368,11 @@ function goPage(n){
   curPage=n;
   document.getElementById('pwrap').style.transform=`translateX(-${n*100}vw)`;
   document.querySelectorAll('.dot').forEach((d,i)=>d.className='dot'+(i===n?' on':''));
+
+  clearTimeout(pageFadeRestartTimer);
+  pageFadeRestartTimer = setTimeout(()=>startFade(), 650);
 }
+
 function startPageTimer(){
   clearInterval(pageAnim);
   if(totalPages<2) return;
@@ -484,101 +380,135 @@ function startPageTimer(){
 }
 function resetPageTimer(){ startPageTimer(); }
 
-/* ── Tag WhatsApp aleatorio ── */
 function startWaAnim(){
   clearInterval(waAnim);
   waAnim=setInterval(()=>{
-    document.querySelectorAll('.tile').forEach(t=>t.classList.remove('show-wa'));
-    const tiles=[...document.querySelectorAll('.tile')];
-    if(tiles.length) tiles[Math.floor(Math.random()*tiles.length)].classList.add('show-wa');
+    const tiles=[...document.querySelectorAll('.tile:not(.tile-empty)')];
+    tiles.forEach(t=>t.classList.remove('show-wa'));
+    if(tiles.length){
+      tiles[Math.floor(Math.random()*tiles.length)].classList.add('show-wa');
+    }
   },3500);
 }
 
-/* ── Fade individual aleatorio e irregular ──
-   Cada tile de la página visible recibe su propio timer con
-   intervalo aleatorio entre 3 y 10 segundos. El fade es cruzado
-   (bg2 sube, bg baja, luego se intercambian). Solo hay foto si
-   hay imagen en el catálogo.
-*/
-function startFade(){
-  fadeTimers.forEach(clearTimeout);
-  fadeTimers=[];
-
-  const prodsCon=PRODUCTOS.filter(p=>p.img);
-  if(prodsCon.length<2) return;
-
-  const FADE_DUR = 2000; // ms que dura el cruce de opacidad
-
-  function scheduleFade(tile){
-    const delay = 6000 + Math.random()*9000; // entre 6 y 15 s por tile
-    const tid=setTimeout(()=>{
-      if(!tile.isConnected) return;
-      const bg=tile.querySelector('.bg');
-      const bg2=tile.querySelector('.bg2');
-      if(!bg||!bg2) return;
-      const curr=bg.style.backgroundImage;
-      let np;
-      do { np=prodsCon[Math.floor(Math.random()*prodsCon.length)]; }
-      while(prodsCon.length>1 && `url(${np.img})`===curr);
-      bg2.style.transition=`opacity ${FADE_DUR/1000}s ease`;
-      bg.style.transition =`opacity ${FADE_DUR/1000}s ease`;
-      bg2.style.backgroundImage=`url(${np.img})`;
-      bg2.style.backgroundColor=np.bg||'#d4c9b8';
-      bg2.style.opacity='0';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        bg2.style.opacity='1';
-        bg.style.opacity='0';
-        // después de que termina el cruce, consolidar y reprogramar
-        setTimeout(()=>{
-          bg.style.backgroundImage=bg2.style.backgroundImage;
-          bg.style.backgroundColor=bg2.style.backgroundColor;
-          bg.style.opacity='1';
-          bg2.style.opacity='0';
-          bg2.style.backgroundImage='';
-          tile._prod=np;
-tile.onclick=()=>openModal(np);
-
-const h3 = tile.querySelector('.lbl h3');
-if(h3) h3.textContent = np.title || '';
-
-const span = tile.querySelector('.lbl span');
-if(span) span.textContent = np.label || '';
-
-scheduleFade(tile);
-        }, FADE_DUR + 100);
-      }));
-    },delay);
-    fadeTimers.push(tid);
+function registerTileTimer(tile, id){
+  const list = fadeTimersByTile.get(tile) || [];
+  list.push(id);
+  fadeTimersByTile.set(tile, list);
+}
+function clearFadeTimers(){
+  fadeTimersByTile.forEach(ids=>ids.forEach(clearTimeout));
+  fadeTimersByTile.clear();
+}
+function clearFadeTimersForTile(tile){
+  const ids = fadeTimersByTile.get(tile);
+  if(ids){
+    ids.forEach(clearTimeout);
+    fadeTimersByTile.delete(tile);
   }
+}
+function getVisiblePageEl(){
+  const pages = document.querySelectorAll('.pg');
+  return pages[curPage] || null;
+}
+function updateTileProduct(tile, prod){
+  tile._prod = prod;
+  tile.onclick = ()=>openModal(tile._prod);
 
-  document.querySelectorAll('.tile').forEach(tile=>{
-    if(tile.querySelector('.bg')?.style.backgroundImage) scheduleFade(tile);
+  const bg = tile.querySelector('.bg');
+  if(bg){
+    bg.style.backgroundImage = prod.img ? `url(${prod.img})` : '';
+    bg.style.backgroundColor = prod.bg || '#d4c9b8';
+  }
+  const h3 = tile.querySelector('.lbl h3');
+  if(h3) h3.textContent = prod.title || '';
+  const span = tile.querySelector('.lbl span');
+  if(span) span.textContent = prod.label || '';
+}
+function startFade(){
+  clearFadeTimers();
+
+  const visiblePage = getVisiblePageEl();
+  if(!visiblePage) return;
+
+  const pool = PRODUCTOS.filter(p=>p.img);
+  if(pool.length < 2) return;
+
+  const tiles = [...visiblePage.querySelectorAll('.tile:not(.tile-empty)')];
+  tiles.forEach(tile=>{
+    const bg = tile.querySelector('.bg');
+    if(!bg || !bg.style.backgroundImage) return;
+    scheduleFadeForTile(tile, visiblePage, pool);
   });
+}
+function scheduleFadeForTile(tile, pageEl, pool){
+  clearFadeTimersForTile(tile);
+
+  const delay = 6000 + Math.random()*9000;
+  const t1 = setTimeout(()=>{
+    if(!tile.isConnected) return;
+    if(getVisiblePageEl() !== pageEl) return;
+
+    const current = tile._prod;
+    let next = pool[Math.floor(Math.random()*pool.length)];
+    let guard = 0;
+    while(pool.length > 1 && current && next.img === current.img && guard < 12){
+      next = pool[Math.floor(Math.random()*pool.length)];
+      guard++;
+    }
+
+    const bg = tile.querySelector('.bg');
+    if(!bg) return;
+
+    bg.style.opacity = '0';
+
+    const t2 = setTimeout(()=>{
+      if(!tile.isConnected) return;
+      if(getVisiblePageEl() !== pageEl) return;
+
+      updateTileProduct(tile, next);
+      bg.style.opacity = '1';
+
+      scheduleFadeForTile(tile, pageEl, pool);
+    }, 460);
+    registerTileTimer(tile, t2);
+
+  }, delay);
+
+  registerTileTimer(tile, t1);
 }
 
 function stopAnimations(){
   clearInterval(pageAnim);
   clearInterval(waAnim);
-  fadeTimers.forEach(clearTimeout);
-  fadeTimers=[];
+  clearTimeout(pageFadeRestartTimer);
+  clearFadeTimers();
 }
 
-/* ── Touch swipe ── */
+/* Touch swipe */
 let sx=0,sy=0;
-document.getElementById('canvas').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+document.getElementById('canvas').addEventListener('touchstart',e=>{
+  sx=e.touches[0].clientX;sy=e.touches[0].clientY;
+},{passive:true});
 document.getElementById('canvas').addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-sx;
   const dy=Math.abs(e.changedTouches[0].clientY-sy);
   if(dy>Math.abs(dx)) return;
-  if(Math.abs(dx)>40){goPage(dx<0?curPage+1:curPage-1);resetPageTimer();}
+  if(Math.abs(dx)>40){
+    goPage(dx<0?curPage+1:curPage-1);
+    resetPageTimer();
+  }
 },{passive:true});
 
-/* ── Búsqueda ── */
+/* Búsqueda */
 function toggleSearch(){
   const bar=document.getElementById('searchBar');
   bar.classList.toggle('open');
-  if(bar.classList.contains('open')) setTimeout(()=>document.getElementById('searchInput').focus(),50);
-  else closeSearch();
+  if(bar.classList.contains('open')){
+    setTimeout(()=>document.getElementById('searchInput').focus(),50);
+  } else {
+    closeSearch();
+  }
 }
 function closeSearch(){
   document.getElementById('searchBar').classList.remove('open');
@@ -587,38 +517,60 @@ function closeSearch(){
 }
 function highlight(text,q){
   if(!q) return text;
+  const safeText = String(text || '');
   const re=new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'$&')})`,'gi');
-  return text.replace(re,'<span class="sr-highlight">$1</span>');
+  return safeText.replace(re,'<span class="sr-highlight">$1</span>');
 }
 function onSearch(q){
   const rs=document.getElementById('searchResults');
-  q=q.trim();
+  q=String(q || '').trim();
   if(!q){rs.innerHTML='';return;}
-  const matches=PRODUCTOS.filter(p=>
-    p.title.toLowerCase().includes(q.toLowerCase())||
-    p.desc.toLowerCase().includes(q.toLowerCase())||
-    (p.label||'').toLowerCase().includes(q.toLowerCase())
-  ).slice(0,8);
-  if(!matches.length){rs.innerHTML='<div class="sr-empty">Sin resultados</div>';return;}
+
+  const ql = q.toLowerCase();
+  const matches=PRODUCTOS.filter(p=>{
+    const title=(p.title||'').toLowerCase();
+    const desc=(p.desc||'').toLowerCase();
+    const label=(p.label||'').toLowerCase();
+    return title.includes(ql) || desc.includes(ql) || label.includes(ql);
+  }).slice(0,8);
+
+  if(!matches.length){
+    rs.innerHTML='<div class="sr-empty">Sin resultados</div>';
+    return;
+  }
+
   rs.innerHTML=matches.map(p=>{
-    const bg=p.img?`background-image:url(${p.img});background-color:${p.bg||'#d4c9b8'}`:`background-color:${p.bg||'#d4c9b8'}`;
-    return `<div class="sr-item" onclick="pickResult(${PRODUCTOS.indexOf(p)})"><div class="sr-swatch" style="${bg}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title,q)}</div><div class="sr-cat">${p.label||'Colección'}</div></div></div>`;
+    const idx = PRODUCTOS.indexOf(p);
+    const bg=p.img
+      ?`background-image:url(${p.img});background-color:${p.bg||'#d4c9b8'}`
+      :`background-color:${p.bg||'#d4c9b8'}`;
+    return `<div class="sr-item" onclick="pickResult(${idx})"><div class="sr-swatch" style="${bg}"></div><div class="sr-info"><div class="sr-name">${highlight(p.title,q)}</div><div class="sr-cat">${p.label||'Colección'}</div></div></div>`;
   }).join('');
 }
-function pickResult(idx){closeSearch();openModal(PRODUCTOS[idx]);}
+function pickResult(idx){
+  if(idx < 0 || idx >= PRODUCTOS.length) return;
+  closeSearch();
+  openModal(PRODUCTOS[idx]);
+}
 
-/* ── Modal ── */
+/* Modal */
 function openModal(prod){
+  if(!prod) return;
+
   stopAnimations();
   document.querySelectorAll('.tile').forEach(t=>t.classList.remove('show-wa'));
+
   const mb=document.getElementById('mimg-bg');
   mb.style.backgroundImage=prod.img?`url(${prod.img})`:'';
   mb.style.backgroundColor=prod.bg||'#d4c9b8';
+
   document.getElementById('mcat').textContent=prod.label||'';
   document.getElementById('mtitle').textContent=prod.title||'';
   document.getElementById('mdesc').textContent=prod.desc||'';
-  const msg=encodeURIComponent(`Hola Pelusitas! Me interesa: ${prod.title}`);
+
+  const msg=encodeURIComponent(`Hola Pelusitas! Me interesa: ${prod.title || ''}`);
   document.getElementById('wa-link').href=`https://wa.me/${WA_NUMBER}?text=${msg}`;
+
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(){
@@ -628,52 +580,62 @@ function closeModal(){
   startFade();
 }
 
-/* ── Estrellas mantenimiento ── */
+/* Estrellas mantenimiento */
 (function(){
-  const c=document.getElementById('stars');if(!c)return;
+  const c=document.getElementById('stars');
+  if(!c) return;
   for(let i=0;i<60;i++){
-    const s=document.createElement('div');s.className='star';
-    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-    s.style.animationDelay=(Math.random()*3)+'s';s.style.animationDuration=(2+Math.random()*2)+'s';
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.animationDuration=(2+Math.random()*2)+'s';
     c.appendChild(s);
   }
 })();
 
-/* ── Normalizar producto ── */
+/* Normalizar producto */
 function normalizar(item){
   return{
-    label:item.label||'Colección',
-    title:item.title||'',
-    desc:item.desc||'',
-    img:item.img||'',
-    bg:item.bg||'#d4c9b8',
-    showTitle:item.showTitle||false,
-    w:item.w||0,
-    h:item.h||0
+    label:item?.label||'Colección',
+    title:item?.title||'',
+    desc:item?.desc||'',
+    img:item?.img||'',
+    bg:item?.bg||'#d4c9b8',
+    showTitle:!!item?.showTitle,
+    w:item?.w||0,
+    h:item?.h||0
   };
 }
 
-/* ── Medir dimensiones reales de imagen ── */
+/* Medir dimensiones reales de imagen */
 function measureImg(url){
   return new Promise(res=>{
     if(!url){res({w:0,h:0});return;}
+
     const img=new Image();
-    const done=()=>res({w:img.naturalWidth||0,h:img.naturalHeight||0});
-    img.onload=done;
-    img.onerror=()=>res({w:0,h:0});
-    // timeout 4s para no bloquear
-    setTimeout(()=>res({w:0,h:0}),4000);
+    let settled=false;
+    const finish=(v)=>{
+      if(settled) return;
+      settled=true;
+      res(v);
+    };
+
+    img.onload=()=>finish({w:img.naturalWidth||0,h:img.naturalHeight||0});
+    img.onerror=()=>finish({w:0,h:0});
+    setTimeout(()=>finish({w:0,h:0}),4000);
     img.src=url;
   });
 }
 
-/* ── Init ── */
+/* Init */
 async function init(){
   try{
     const res=await fetch(`${CATALOGO_URL}?v=${Date.now()}`);
     if(!res.ok) throw new Error(res.status);
     const data=await res.json();
-    PRODUCTOS=data.map(normalizar);
+    PRODUCTOS=(Array.isArray(data)?data:[]).map(normalizar);
   }catch(e){
     console.warn('No se pudo cargar el catálogo:',e);
     document.getElementById('pwrap').innerHTML='<div class="empty-msg" style="flex-direction:column;gap:.8rem"><span>No se pudo cargar el catálogo</span><span style="font-size:9px;opacity:.6">Verificá la conexión o el archivo catalogo.json</span></div>';
@@ -681,7 +643,6 @@ async function init(){
     return;
   }
 
-  // Medir dimensiones de productos que no las tengan (necesario para elegir layout)
   await Promise.all(PRODUCTOS.map(async p=>{
     if(!p.w || !p.h){
       const {w,h}=await measureImg(p.img);
@@ -692,10 +653,8 @@ async function init(){
   const loader=document.getElementById('loading');
   loader.classList.add('hidden');
   setTimeout(()=>loader.remove(),400);
+
   render(PRODUCTOS);
-  startWaAnim();
-  startPageTimer();
-  startFade();
 }
 init();
 </script>
