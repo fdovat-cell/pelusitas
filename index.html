@@ -245,9 +245,12 @@ const MOBILE_LAYOUTS = [
 ];
 
 const DESKTOP_LAYOUTS = [
-  { cols:4, rows:3, rowTemplate:`2fr 2fr 1.4fr`, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, rowTemplate:`2fr 2fr 1.4fr`, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:4, rowTemplate:`2fr 2fr 1.2fr 1.2fr`, areas:`"H H a b" "H H c d" "e f g i" "j k l m"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},i:{cs:1,rs:1},j:{cs:1,rs:1},k:{cs:1,rs:1},l:{cs:1,rs:1},m:{cs:1,rs:1}} }
+  /* A puro: hero izq ocupa todo el alto, sin fila abajo */
+  { cols:4, rows:2, rowTemplate:`1fr 1fr`, areas:`"H H a b" "H H c d"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
+  /* B: hero der + sm izq + fila sm abajo */
+  { cols:4, rows:3, rowTemplate:`2fr 2fr 1.3fr`, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  /* A con fila abajo: hero izq + sm der + sm abajo */
+  { cols:4, rows:3, rowTemplate:`2fr 2fr 1.3fr`, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} }
 ];
 
 function isMobile(){ return window.innerWidth < 640; }
