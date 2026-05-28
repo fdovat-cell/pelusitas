@@ -56,8 +56,23 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 .sr-empty{padding:1.2rem;text-align:center;font-size:12px;color:var(--muted);letter-spacing:.1em;}
 
 .canvas{flex:1;overflow:hidden;position:relative;min-height:0;}
-.pages-wrap{display:flex;height:100%;min-height:0;transition:transform .6s cubic-bezier(.77,0,.18,1);}
-.pg{width:100vw;flex-shrink:0;height:100%;min-height:0;display:grid;gap:4px;padding:4px;}
+.pages-wrap{position:relative;width:100%;height:100%;min-height:0;}
+.pg{
+  position:absolute;inset:0;
+  display:grid;gap:4px;padding:4px;
+  opacity:0;visibility:hidden;
+  pointer-events:none;z-index:0;
+  transition:opacity 1.35s ease, transform 1.35s ease, filter 1.2s ease;
+  transform:scale(1.02);
+  filter:blur(0);
+}
+.pg.is-active{opacity:1;visibility:visible;pointer-events:auto;z-index:2;transform:scale(1);}
+.pg.is-leaving{opacity:0;visibility:visible;pointer-events:none;z-index:1;transform:scale(1);}
+.pages-wrap.tx-zoom .pg.is-active{transform:scale(1);}
+.pages-wrap.tx-zoom .pg.is-leaving{transform:scale(0.98);}
+.pages-wrap.tx-zoom .pg:not(.is-active):not(.is-leaving){transform:scale(1.03);}
+.pages-wrap.tx-soft .pg.is-leaving{filter:blur(5px);}
+.pages-wrap.tx-soft .pg.is-active{filter:blur(0);}
 
 .tile{
   border-radius:6px;overflow:hidden;position:relative;cursor:pointer;
@@ -65,15 +80,17 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
   transform:translateZ(0);
 }
 .tile-empty{border-radius:6px;background:var(--cream);min-height:0;min-width:0;pointer-events:none;transform:translateZ(0);}
-.tile .bg{
+.tile .bg,.tile .bg2{
   position:absolute;inset:0;
   background-size:cover;background-position:center center;
-  transition:opacity .45s ease;
-  opacity:1;
+  transition:opacity 2s ease;
+  will-change:opacity;
 }
-.tile.shape-h .bg{background-position:center center;}
-.tile.shape-v .bg{background-position:center top;}
-.tile.shape-sq .bg{background-position:center center;}
+.tile .bg{opacity:1;z-index:1;}
+.tile .bg2{opacity:0;z-index:2;pointer-events:none;}
+.tile.shape-h .bg,.tile.shape-h .bg2{background-position:center center;}
+.tile.shape-v .bg,.tile.shape-v .bg2{background-position:center top;}
+.tile.shape-sq .bg,.tile.shape-sq .bg2{background-position:center center;}
 
 .lbl{position:absolute;bottom:0;left:0;right:0;padding:.6rem .7rem;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%);}
 .lbl h3{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:#fff;line-height:1.3;letter-spacing:.04em;}
@@ -177,6 +194,10 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 const WA_NUMBER = '59896190003';
 const CATALOGO_URL = 'catalogo.json';
 const FIXED_PAGES = 3;
+const PAGE_AUTO_MS = 12000;
+const PAGE_TRANS_MS = 1350;
+const TILE_FADE_MS = 2000;
+const PAGE_TRANSITIONS = ['fade', 'zoom', 'soft'];
 
 let PRODUCTOS = [];
 let curPage = 0;
@@ -184,6 +205,7 @@ let totalPages = 0;
 let pageAnim = null;
 let waAnim = null;
 let pageFadeRestartTimer = null;
+let pageTransBusy = false;
 const fadeTimersByTile = new Map();
 
 /* Layouts probados (sin diseños rotos que rompen la grilla) */
@@ -371,7 +393,7 @@ function updateTileProduct(tile, prod){
     const lblHtml = prod.showTitle
       ? `<div class="lbl"><span>${escapeHtml(prod.label)}</span><h3>${escapeHtml(prod.title)}</h3></div>`
       : '';
-    tile.innerHTML = `<div class="bg"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+    tile.innerHTML = `<div class="bg"></div><div class="bg2"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
     applyTileBg(tile.querySelector('.bg'), prod);
     return;
   }
@@ -393,8 +415,9 @@ function render(prods){
 
   const wrap = document.getElementById('pwrap');
   wrap.innerHTML = '';
-  wrap.style.transform = 'translateX(0)';
+  wrap.className = 'pages-wrap';
   curPage = 0;
+  pageTransBusy = false;
 
   if(!prods.length){
     wrap.innerHTML = '<div class="empty-msg">Sin resultados</div>';
@@ -406,10 +429,10 @@ function render(prods){
   const pages = buildPages(prods);
   totalPages = FIXED_PAGES;
 
-  pages.forEach(pg => {
+  pages.forEach((pg, pi) => {
     const { layout, keys } = pg;
     const div = document.createElement('div');
-    div.className = 'pg';
+    div.className = 'pg' + (pi === 0 ? ' is-active' : '');
     div.style.gridTemplateColumns = `repeat(${layout.cols}, 1fr)`;
     div.style.gridTemplateRows = `repeat(${layout.rows}, minmax(0, 1fr))`;
     div.style.gridTemplateAreas = layout.areas;
@@ -427,7 +450,7 @@ function render(prods){
       }
 
       t.className = 'tile shape-' + shapeOf(prod);
-      t.innerHTML = `<div class="bg"></div>${tileLabelHtml(prod)}<div class="wa-tag">WhatsApp</div>`;
+      t.innerHTML = `<div class="bg"></div><div class="bg2"></div>${tileLabelHtml(prod)}<div class="wa-tag">WhatsApp</div>`;
       applyTileBg(t.querySelector('.bg'), prod);
       t._prod = prod;
       t.onclick = () => openModal(t._prod);
@@ -463,32 +486,58 @@ function getPageFadePool(pageEl){
   const extra = (pageEl._pool || []).filter(p => p && p.imgOk);
   const seen = new Set();
   const all = [...onTiles, ...extra];
-  return all.filter(p => {
+  const pool = all.filter(p => {
     if(!p.img || !p.imgOk || seen.has(p.img)) return false;
     seen.add(p.img);
     return true;
   });
+  if(pool.length >= 2) return pool;
+  const global = PRODUCTOS.filter(p => p.imgOk);
+  return global.length >= 2 ? global : pool;
+}
+
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.className = 'dot' + (i === curPage ? ' on' : '');
+  });
 }
 
 function goPage(n){
-  const pgs = document.querySelectorAll('.pg');
-  if(!pgs.length) return;
-  if(n < 0) n = pgs.length - 1;
-  if(n >= pgs.length) n = 0;
-  curPage = n;
-  document.getElementById('pwrap').style.transform = `translateX(-${n * 100}vw)`;
-  document.querySelectorAll('.dot').forEach((d, i) => {
-    d.className = 'dot' + (i === n ? ' on' : '');
-  });
+  const pgs = [...document.querySelectorAll('.pg')];
+  if(!pgs.length || pageTransBusy) return;
+
+  const next = ((n % pgs.length) + pgs.length) % pgs.length;
+  if(next === curPage) return;
+
+  const wrap = document.getElementById('pwrap');
+  const mode = PAGE_TRANSITIONS[Math.floor(Math.random() * PAGE_TRANSITIONS.length)];
+  wrap.className = 'pages-wrap tx-' + mode;
+
+  const outPg = pgs[curPage];
+  const inPg = pgs[next];
+
+  pageTransBusy = true;
+  clearFadeTimers();
+
+  inPg.classList.add('is-active');
+  outPg.classList.remove('is-active');
+  outPg.classList.add('is-leaving');
+
+  curPage = next;
+  updateDots();
 
   clearTimeout(pageFadeRestartTimer);
-  pageFadeRestartTimer = setTimeout(() => startFade(), 650);
+  pageFadeRestartTimer = setTimeout(() => {
+    outPg.classList.remove('is-leaving');
+    pageTransBusy = false;
+    startFade();
+  }, PAGE_TRANS_MS);
 }
 
 function startPageTimer(){
   clearInterval(pageAnim);
   if(totalPages < 2) return;
-  pageAnim = setInterval(() => goPage(curPage + 1), 6500);
+  pageAnim = setInterval(() => goPage(curPage + 1), PAGE_AUTO_MS);
 }
 
 function resetPageTimer(){ startPageTimer(); }
@@ -525,6 +574,15 @@ function clearFadeTimersForTile(tile){
   }
 }
 
+function syncTileLabels(tile, prod){
+  tile._prod = prod;
+  tile.onclick = () => openModal(tile._prod);
+  const h3 = tile.querySelector('.lbl h3');
+  if(h3) h3.textContent = prod.title || '';
+  const span = tile.querySelector('.lbl span');
+  if(span) span.textContent = prod.label || '';
+}
+
 function startFade(){
   clearFadeTimers();
   const visiblePage = getVisiblePageEl();
@@ -542,9 +600,9 @@ function startFade(){
 function scheduleFadeForTile(tile, pageEl, pool){
   clearFadeTimersForTile(tile);
 
-  const delay = 6000 + Math.random() * 9000;
+  const delay = 5000 + Math.random() * 7000;
   const t1 = setTimeout(() => {
-    if(!tile.isConnected || getVisiblePageEl() !== pageEl) return;
+    if(!tile.isConnected || getVisiblePageEl() !== pageEl || pageTransBusy) return;
 
     const current = tile._prod;
     let next = pool[Math.floor(Math.random() * pool.length)];
@@ -555,14 +613,28 @@ function scheduleFadeForTile(tile, pageEl, pool){
     }
 
     const bg = tile.querySelector('.bg');
-    if(!bg || !next || !next.img) return;
+    const bg2 = tile.querySelector('.bg2');
+    if(!bg || !bg2 || !next || !next.img) return;
 
-    bg.style.opacity = '0';
+    applyTileBg(bg2, next);
+    bg2.style.opacity = '0';
+    bg.style.transition = `opacity ${TILE_FADE_MS}ms ease`;
+    bg2.style.transition = `opacity ${TILE_FADE_MS}ms ease`;
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      bg2.style.opacity = '1';
+      bg.style.opacity = '0';
+    }));
+
     const t2 = setTimeout(() => {
       if(!tile.isConnected || getVisiblePageEl() !== pageEl) return;
-      updateTileProduct(tile, next);
+      applyTileBg(bg, next);
+      syncTileLabels(tile, next);
+      bg.style.opacity = '1';
+      bg2.style.opacity = '0';
+      bg2.style.backgroundImage = '';
       scheduleFadeForTile(tile, pageEl, pool);
-    }, 460);
+    }, TILE_FADE_MS + 80);
     registerTileTimer(tile, t2);
   }, delay);
 
