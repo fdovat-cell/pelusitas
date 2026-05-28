@@ -1,7 +1,7 @@
 [
   {
     "title": "Enterito plush",
-    "label": "ColecciÃÂ³n",
+    "label": "ColecciÃÂÃÂ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -9,5 +9,203 @@
     "tipo": "prenda",
     "w": 864,
     "h": 1184
+  },
+  {
+    "title": "Jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/17.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 832,
+    "h": 756
+  },
+  {
+    "title": "Conjkunto plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/18.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 864,
+    "h": 1184
+  },
+  {
+    "title": "Vestido de pana con guarda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/19.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 728,
+    "h": 1052
+  },
+  {
+    "title": "Gorrito aviador",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/1.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 495,
+    "h": 562
+  },
+  {
+    "title": "Jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/2.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 992,
+    "h": 1056
+  },
+  {
+    "title": "Campera de pana forrada",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/3.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1024,
+    "h": 904
+  },
+  {
+    "title": "Jumper de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/4.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 686,
+    "h": 771
+  },
+  {
+    "title": "zapatitos crochet",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/6.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Camisa leñadora",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/7.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 784,
+    "h": 752
+  },
+  {
+    "title": "Conjunto de plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/8.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1184,
+    "h": 864
+  },
+  {
+    "title": "Enterito de plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/9.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 628,
+    "h": 760
+  },
+  {
+    "title": "Vestido de pana con guarda",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/10.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 908,
+    "h": 960
+  },
+  {
+    "title": "JUmper de pana con camisa",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/11.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 804,
+    "h": 964
+  },
+  {
+    "title": "enterito plush",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/12.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 864,
+    "h": 872
+  },
+  {
+    "title": "conjunto tejido con gorrito",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/13.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1024,
+    "h": 1024
+  },
+  {
+    "title": "Conjunto vestido con chaqueta",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/14.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 864,
+    "h": 1184
+  },
+  {
+    "title": "vestido de pana",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/15.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 1056,
+    "h": 992
+  },
+  {
+    "title": "Escarpines tejidos",
+    "label": "Colección",
+    "desc": "",
+    "img": "fotos/16.webp",
+    "bg": "#d4c9b8",
+    "showTitle": true,
+    "tipo": "prenda",
+    "w": 592,
+    "h": 520
   }
 ]
