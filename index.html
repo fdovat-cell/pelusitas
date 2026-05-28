@@ -188,25 +188,24 @@ let waAnim = null;
 let pageFadeRestartTimer = null;
 const fadeTimersByTile = new Map();
 
-/* Layouts: H = hero; slots con cs/rs definen forma del tile en el mosaico */
+/* Layouts probados (sin diseños rotos que rompen la grilla) */
 const MOBILE_LAYOUTS = [
   { cols:3, rows:4, areas:`"H H a" "H H b" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:3, rows:4, areas:`"a H H" "b H H" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:3, rows:4, areas:`"a b c" "H H d" "H H e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:3, rows:4, areas:`"a b c" "d e f" "H H g" "H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:3, rows:4, areas:`"H a b" "H c d" "H e f" "g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b H" "c d H" "e f H" "g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"H H a" "b c d" "e f g" "h i j"`, tiles:{H:{cs:2,rs:1},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:2},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1},j:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b c" "d e H" "f H H" "g h i"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:2,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} }
+  { cols:3, rows:4, areas:`"a b H" "c d H" "e f H" "g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} }
 ];
 
 const DESKTOP_LAYOUTS = [
   { cols:4, rows:3, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:4, rows:3, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:4, rows:3, areas:`"a H H b" "c H H d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c d" "H H e f" "H H g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c d" "e H H f" "g H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
   { cols:4, rows:3, areas:`"H a b c" "H d e f" "H g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c H" "d e f H" "g h i H"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"H H a b" "c d e f" "g h i j"`, tiles:{H:{cs:2,rs:1},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:2},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1},j:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c d" "e H H f" "g h i j"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:2,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1},j:{cs:1,rs:1}} }
+  { cols:4, rows:3, areas:`"a b c H" "d e f H" "g h i H"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} }
 ];
 
 function isMobile(){ return window.innerWidth < 640; }
@@ -329,8 +328,12 @@ function bgStyle(prod){
     : `background-color:${prod.bg || '#d4c9b8'}`;
 }
 
+function escapeHtml(s){
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function updateTileProduct(tile, prod){
-  if(!prod || !prod.img){
+  if(!prod || !prod.img || !prod.imgOk){
     tile.className = 'tile tile-empty';
     tile.innerHTML = '';
     tile._prod = null;
@@ -345,7 +348,7 @@ function updateTileProduct(tile, prod){
   let bg = tile.querySelector('.bg');
   if(!bg){
     const lblHtml = prod.showTitle
-      ? `<div class="lbl"><span>${prod.label || ''}</span><h3>${prod.title || ''}</h3></div>`
+      ? `<div class="lbl"><span>${escapeHtml(prod.label)}</span><h3>${escapeHtml(prod.title)}</h3></div>`
       : '';
     tile.innerHTML = `<div class="bg" style="${bgStyle(prod)}"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
     return;
@@ -357,6 +360,11 @@ function updateTileProduct(tile, prod){
   if(h3) h3.textContent = prod.title || '';
   const span = tile.querySelector('.lbl span');
   if(span) span.textContent = prod.label || '';
+}
+
+function tileLabelHtml(prod){
+  if(!prod.showTitle) return '';
+  return `<div class="lbl"><span>${escapeHtml(prod.label)}</span><h3>${escapeHtml(prod.title)}</h3></div>`;
 }
 
 function render(prods){
@@ -391,17 +399,14 @@ function render(prods){
       const t = document.createElement('div');
       t.style.gridArea = key;
 
-      if(!prod || !prod.img){
+      if(!prod || !prod.img || !prod.imgOk){
         t.className = 'tile tile-empty';
         div.appendChild(t);
         return;
       }
 
-      const lblHtml = prod.showTitle
-        ? `<div class="lbl"><span>${prod.label || ''}</span><h3>${prod.title || ''}</h3></div>`
-        : '';
       t.className = 'tile shape-' + shapeOf(prod);
-      t.innerHTML = `<div class="bg" style="${bgStyle(prod)}"></div>${lblHtml}<div class="wa-tag">WhatsApp</div>`;
+      t.innerHTML = `<div class="bg" style="${bgStyle(prod)}"></div>${tileLabelHtml(prod)}<div class="wa-tag">WhatsApp</div>`;
       t._prod = prod;
       t.onclick = () => openModal(t._prod);
       div.appendChild(t);
@@ -432,12 +437,12 @@ function getVisiblePageEl(){
 function getPageFadePool(pageEl){
   const onTiles = [...pageEl.querySelectorAll('.tile:not(.tile-empty)')]
     .map(t => t._prod)
-    .filter(p => p && p.img);
-  const extra = pageEl._pool || [];
+    .filter(p => p && p.imgOk);
+  const extra = (pageEl._pool || []).filter(p => p && p.imgOk);
   const seen = new Set();
   const all = [...onTiles, ...extra];
   return all.filter(p => {
-    if(!p.img || seen.has(p.img)) return false;
+    if(!p.img || !p.imgOk || seen.has(p.img)) return false;
     seen.add(p.img);
     return true;
   });
@@ -657,16 +662,31 @@ function closeModal(){
   }
 })();
 
+function fixUtf8Mojibake(str){
+  if(!str || typeof str !== 'string') return str || '';
+  if(!/Ã|Â|\uFFFD/.test(str)) return str;
+  try{
+    const bytes = Uint8Array.from([...str], ch => ch.charCodeAt(0) & 0xff);
+    const fixed = new TextDecoder('utf-8').decode(bytes);
+    if(fixed && !fixed.includes('\uFFFD')) return fixed;
+  }catch(e){}
+  try{
+    return decodeURIComponent(escape(str));
+  }catch(e){}
+  return str;
+}
+
 function normalizar(item){
   return {
-    label: item?.label || 'Colección',
-    title: item?.title || '',
-    desc: item?.desc || '',
-    img: item?.img || '',
+    label: fixUtf8Mojibake(item?.label) || 'Colección',
+    title: fixUtf8Mojibake(item?.title) || '',
+    desc: fixUtf8Mojibake(item?.desc) || '',
+    img: (item?.img || '').trim(),
     bg: item?.bg || '#d4c9b8',
     showTitle: !!item?.showTitle,
     w: item?.w || 0,
-    h: item?.h || 0
+    h: item?.h || 0,
+    imgOk: false
   };
 }
 
@@ -691,7 +711,8 @@ async function init(){
   try{
     const res = await fetch(`${CATALOGO_URL}?v=${Date.now()}`);
     if(!res.ok) throw new Error(res.status);
-    const data = await res.json();
+    const raw = await res.text();
+    const data = JSON.parse(raw);
     PRODUCTOS = (Array.isArray(data) ? data : []).map(normalizar);
   }catch(e){
     console.warn('No se pudo cargar el catálogo:', e);
@@ -701,17 +722,23 @@ async function init(){
   }
 
   await Promise.all(PRODUCTOS.map(async p => {
-    if(!p.w || !p.h){
-      const { w, h } = await measureImg(p.img);
-      p.w = w;
-      p.h = h;
-    }
+    const { w, h } = await measureImg(p.img);
+    p.w = w;
+    p.h = h;
+    p.imgOk = !!(p.img && w > 0 && h > 0);
   }));
+
+  const paraGrilla = PRODUCTOS.filter(p => p.imgOk);
+  if(!paraGrilla.length){
+    document.getElementById('pwrap').innerHTML = '<div class="empty-msg" style="flex-direction:column;gap:.8rem"><span>Sin fotos válidas en el catálogo</span><span style="font-size:9px;opacity:.6">Revisá las rutas img en catalogo.json</span></div>';
+    document.getElementById('loading').classList.add('hidden');
+    return;
+  }
 
   const loader = document.getElementById('loading');
   loader.classList.add('hidden');
   setTimeout(() => loader.remove(), 400);
-  render(PRODUCTOS);
+  render(paraGrilla);
 }
 
 init();
