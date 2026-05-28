@@ -91,9 +91,14 @@ html,body{height:100%;overflow:hidden;background:#f0ebe3;}
 /* Grande (2×2): cover, encuadre tipo vitrina */
 .tile-hero .bg,.tile-hero .bg2{background-size:cover;background-position:center center;}
 .tile-hero.shape-v .bg,.tile-hero.shape-v .bg2{background-position:center 22%;}
-/* Chico: contain para no cortar caras ni prendas */
-.tile-sm .bg,.tile-sm .bg2{background-size:contain;background-position:center center;}
-.tile-sm.shape-v .bg,.tile-sm.shape-v .bg2{background-position:center top;}
+/* Chico: cover ajustado (menos margen que contain; caras un poco más arriba) */
+.tile-sm .bg,.tile-sm .bg2{background-size:cover;background-position:center center;}
+.tile-sm.shape-v .bg,.tile-sm.shape-v .bg2{background-position:center 32%;}
+@media (min-width:640px){
+  .tile-sm .bg,.tile-sm .bg2{background-size:108% auto;}
+  .tile-sm.shape-v .bg,.tile-sm.shape-v .bg2{background-size:auto 108%;}
+  .tile-sm.shape-h .bg,.tile-sm.shape-h .bg2{background-size:108% auto;}
+}
 
 .lbl{position:absolute;bottom:0;left:0;right:0;padding:.6rem .7rem;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%);}
 .lbl h3{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:#fff;line-height:1.3;letter-spacing:.04em;}
@@ -218,7 +223,7 @@ const fadeTimersByTile = new Map();
 
 function isLargeSlot(layout, key){
   const s = layout.tiles[key];
-  if(key === 'H') return true;
+  if(key === 'H' || key === 'H2') return true;
   return s.cs >= 2 && s.rs >= 2;
 }
 
@@ -231,22 +236,17 @@ function shuffleArr(arr){
   return a;
 }
 
-/* Layouts probados (sin diseños rotos que rompen la grilla) */
+/* 2 fotos grandes (H + H2, cada una 2×2) por pantalla */
 const MOBILE_LAYOUTS = [
-  { cols:3, rows:4, areas:`"H H a" "H H b" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a H H" "b H H" "c d e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b c" "H H d" "H H e" "f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:3, rows:4, areas:`"a b c" "d e f" "H H g" "H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} }
+  { cols:4, rows:4, areas:`"H H H2 H2" "H H H2 H2" "a b c d" "e f g h"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
+  { cols:3, rows:5, areas:`"H H a" "H H b" "c H2 H2" "d H2 H2" "e f g"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1}} },
+  { cols:3, rows:5, areas:`"a H H" "b H H" "H2 H2 c" "H2 H2 d" "e f g"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1}} }
 ];
 
 const DESKTOP_LAYOUTS = [
-  { cols:4, rows:3, areas:`"H H a b" "H H c d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b H H" "c d H H" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a H H b" "c H H d" "e f g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c d" "H H e f" "H H g h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c d" "e H H f" "g H H h"`, tiles:{H:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"H a b c" "H d e f" "H g h i"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} },
-  { cols:4, rows:3, areas:`"a b c H" "d e f H" "g h i H"`, tiles:{H:{cs:1,rs:3},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1},i:{cs:1,rs:1}} }
+  { cols:4, rows:3, areas:`"H H H2 H2" "H H H2 H2" "a b c d"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
+  { cols:4, rows:3, areas:`"a b c d" "H H H2 H2" "H H H2 H2"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1}} },
+  { cols:4, rows:4, areas:`"H H H2 H2" "H H H2 H2" "a b c d" "e f g h"`, tiles:{H:{cs:2,rs:2},H2:{cs:2,rs:2},a:{cs:1,rs:1},b:{cs:1,rs:1},c:{cs:1,rs:1},d:{cs:1,rs:1},e:{cs:1,rs:1},f:{cs:1,rs:1},g:{cs:1,rs:1},h:{cs:1,rs:1}} }
 ];
 
 function isMobile(){ return window.innerWidth < 640; }
@@ -304,14 +304,11 @@ function pickLayoutForGroup(group, prevIdx){
   let candidates = src.map((l, i) => ({ l, i })).filter(x => x.i !== prevIdx);
   if(!candidates.length) candidates = src.map((l, i) => ({ l, i }));
 
-  /* Celular: tile grande en cuadrado 2×2 (4 celdas), no columna vertical 1×3 */
-  if(isMobile()){
-    const cuadrado = candidates.filter(({ l }) => {
-      const h = l.tiles.H;
-      return h && h.cs >= 2 && h.rs >= 2;
-    });
-    if(cuadrado.length) candidates = cuadrado;
-  }
+  const dualHero = candidates.filter(({ l }) => {
+    const h2 = l.tiles.H2;
+    return h2 && h2.cs >= 2 && h2.rs >= 2;
+  });
+  if(dualHero.length) candidates = dualHero;
 
   let chosen = candidates[0];
   let bestScore = -1;
@@ -326,7 +323,7 @@ function assignProductsToSlots(products, layout){
   const slots = Object.entries(layout.tiles)
     .map(([key, slot]) => ({ key, slot, shape: slotShape(slot) }))
     .sort((a, b) => {
-      const weight = s => (s.key === 'H' ? 100 : 0) + (s.shape === 'sq' ? 0 : s.shape === 'v' ? 2 : 3);
+      const weight = s => (s.key === 'H' || s.key === 'H2' ? 100 : 0) + (s.shape === 'sq' ? 0 : s.shape === 'v' ? 2 : 3);
       return weight(b) - weight(a);
     });
 
