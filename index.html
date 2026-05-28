@@ -220,6 +220,7 @@ let pageFadeRestartTimer = null;
 let pageTransBusy = false;
 let simultaneousFades = 0;
 const fadeTimersByTile = new Map();
+let COLA = []; // cola global de fotos: todas desfilan antes de repetirse
 
 function isLargeSlot(layout, key){
   const s = layout.tiles[key];
@@ -358,8 +359,31 @@ function assignProductsToSlots(products, layout){
   return { assignment, pool: available };
 }
 
+/* Toma slotCount fotos de la cola global sin repetir en la misma pantalla */
+function takeFromCola(slotCount){
+  const out = [];
+  const used = new Set();
+  let attempts = 0;
+  while(out.length < slotCount && attempts < COLA.length * 2){
+    const p = COLA.shift();
+    attempts++;
+    if(!p) break;
+    if(!used.has(p.img)){
+      used.add(p.img);
+      out.push(p);
+      COLA.push(p); // va al final de la cola
+    } else {
+      COLA.push(p); // devolver al final y seguir buscando
+    }
+  }
+  return out;
+}
+
 function buildPages(prods){
   if(!prods.length) return [];
+
+  // Inicializar cola aleatoria si está vacía
+  if(!COLA.length) COLA = shuffleArr(prods);
 
   const pages = [];
   let prevIdx = -1;
@@ -369,11 +393,10 @@ function buildPages(prods){
     prevIdx = idx;
 
     const keys = Object.keys(layout.tiles);
-    const candidates = fillSlotsCyclic(prods, keys.length, p);
+    const candidates = takeFromCola(keys.length);
     const { assignment } = assignProductsToSlots(candidates, layout);
     const prodsOnScreen = keys.map(k => assignment.get(k) || null);
 
-    /* En cada pantalla rotan TODAS las fotos válidas, no solo un tercio */
     pages.push({ layout, keys, prods: prodsOnScreen, pool: [...prods] });
   }
   return pages;
