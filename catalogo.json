@@ -1,7 +1,7 @@
 [
   {
     "title": "Enterito plush",
-    "label": "ColecciÃ³n",
+    "label": "ColecciÃÂ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -11,19 +11,8 @@
     "h": 1184
   },
   {
-    "title": "Conjunto con chaqueta",
-    "label": "ColecciÃ³n",
-    "desc": "",
-    "img": "fotos/gorro-aviador (11).webp",
-    "bg": "#d4c9b8",
-    "showTitle": true,
-    "tipo": "modelo",
-    "w": 864,
-    "h": 1184
-  },
-  {
-    "title": "EscarpÃ­n orejitas",
-    "label": "ColecciÃ³n",
+    "title": "EscarpÃÂ­n orejitas",
+    "label": "ColecciÃÂ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (13).webp",
     "bg": "#d4c9b8",
