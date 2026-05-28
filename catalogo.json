@@ -1,7 +1,7 @@
 [
   {
     "title": "Enterito plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/70362.webp",
     "bg": "#d4c9b8",
@@ -11,19 +11,8 @@
     "h": 1184
   },
   {
-    "title": "Vestido pana",
-    "label": "Colección",
-    "desc": "",
-    "img": "fotos/gorro-aviador (7).webp",
-    "bg": "#d4c9b8",
-    "showTitle": true,
-    "tipo": "modelo",
-    "w": 908,
-    "h": 960
-  },
-  {
     "title": "Jumper de pana",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (8).webp",
     "bg": "#d4c9b8",
@@ -34,7 +23,7 @@
   },
   {
     "title": "Enterito plush",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (9).webp",
     "bg": "#d4c9b8",
@@ -45,7 +34,7 @@
   },
   {
     "title": "Conjunto tejido",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (10).webp",
     "bg": "#d4c9b8",
@@ -56,7 +45,7 @@
   },
   {
     "title": "Conjunto con chaqueta",
-    "label": "Colección",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (11).webp",
     "bg": "#d4c9b8",
@@ -66,8 +55,8 @@
     "h": 1184
   },
   {
-    "title": "Escarpín orejitas",
-    "label": "Colección",
+    "title": "EscarpÃ­n orejitas",
+    "label": "ColecciÃ³n",
     "desc": "",
     "img": "fotos/gorro-aviador (13).webp",
     "bg": "#d4c9b8",
